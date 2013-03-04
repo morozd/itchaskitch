@@ -1,6 +1,6 @@
 			<hr />
 			<footer>
-				<p>&copy; <?php echo date('Y'); ?> <a href="http://jackrugile.com"><strong>Jack Rugile </strong></a> <span>//</span> <strong class="skitch-count"><?php echo get_skitch_count(); ?></strong> Skitches</p>
+				<p>&copy; <?php echo date('Y'); ?> <a href="http://jackrugile.com" target="_blank"><strong>Jack Rugile </strong></a> <span>//</span> <strong class="skitch-count"><?php echo get_skitch_count(); ?></strong> Skitches <span>//</span> Found a bug or have a suggestion? <a href="https://github.com/jackrugile/itchaskitch/issues" target="_blank"><strong>Submit an Issue on GitHub</strong></a></p>
 			</footer>		
 		</div><!-- end .container -->
 		<?php if($page['parent'] == 'home'){ ?>
