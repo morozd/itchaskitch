@@ -2,4 +2,4 @@
 
 Retro Creative Canvas
 
-**You can view the project online here:** <http://itchaskitch.com>
+**Still in development, will be living here:** <http://itchaskitch.com>
