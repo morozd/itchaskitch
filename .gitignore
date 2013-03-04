@@ -1,0 +1,6 @@
+img/
+php/config.php
+temp/
+.htaccess
+notes.txt
+*.html
