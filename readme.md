@@ -2,4 +2,4 @@
 
 Retro Creative Canvas
 
-**Still in development, will be living here:** <http://itchaskitch.com>
+**Still in development, but will live here:** <http://itchaskitch.com>
