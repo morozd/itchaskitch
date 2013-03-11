@@ -9,7 +9,7 @@
 window.util = {};
 
 util.coord = function(num){
-	return Number(num.toFixed(3));
+	return Number(num.toFixed(1));
 };
 
 util.random = function(min, max){

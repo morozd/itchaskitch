@@ -52,7 +52,7 @@ var win = window,
 		knobInner: 'hsl(7, 35%, 95%)',
 		knobOuter: 'hsl(7, 45%, 45%)',
 		cursor: 'hsla(35, 5%, 95%, .75)',
-		path: 'hsl(35, 10%, 40%)'
+		path: 'hsla(35, 10%, 30%, .6)'
 	},
 	screen = {x: 75, y: 75, width: width - 150, height: height - 225},
 	cursor = new Cursor(),
@@ -89,7 +89,7 @@ ctx.lineCap = 'round';
 /*==============================================================================*/
 /* Initialize */
 /*==============================================================================*/
-function init(){
+function init(){	
 	RAF();
 	renderBackground();
 	renderScreen();
@@ -197,11 +197,11 @@ Cursor.prototype.update = function(){
 				parallel = true;	
 			};		
 		};		
-		if(parallel){
-			path[lastPointIndex] = [this.x, this.y];
-		} else {
+		//if(parallel){
+			//path[lastPointIndex] = [this.x, this.y];
+		//} else {
 			path.push([this.x, this.y]);
-		};
+		//};
 	};
 };
 
@@ -316,16 +316,20 @@ function renderPartialPath(){
 	ctx.beginPath();
 	ctx.rect(screen.x, screen.y, screen.width, screen.height);
 	ctx.clip();
+	ctx.shadowBlur = 3;
+	ctx.shadowColor = '#fff';
+	ctx.lineWidth = 1.5;
+	ctx.strokeStyle = colors.path;
 	if(!rumbling){
 		var length = path.length;
 		ctx.beginPath();
 		ctx.moveTo(cursor.ox, cursor.oy);
-		ctx.lineTo(cursor.x, cursor.y);
-		ctx.shadowBlur = 3;
-		ctx.shadowColor = '#fff';
-		ctx.lineWidth = 1.5;
-		ctx.strokeStyle = colors.path;	
+		ctx.lineTo(cursor.x, cursor.y);			
 		ctx.stroke();
+		if(Math.floor(util.random(0, 2)) == 0){
+			ctx.fillStyle = 'hsl(0, 0%, ' + util.random(40, 100) + '%)';	  
+			ctx.fillRect(cursor.ox + util.random(-15, 15) / 10, cursor.oy + util.random(-15, 15) / 10, util.random(1, 2) / 2, util.random(1, 2) / 2);
+		};
 	};
 	ctx.restore();
 };
@@ -340,16 +344,21 @@ function renderFullPath(){
 	ctx.clip();
 	if(!rumbling){
 		var length = path.length;
-		ctx.beginPath();
-		for(var i = 0; i < length - 1; i++){			
-			ctx.moveTo(path[i][0], path[i][1]);
-			ctx.lineTo(path[i + 1][0], path[i + 1][1]);
-		};
 		ctx.shadowBlur = 3;
 		ctx.shadowColor = '#fff';
 		ctx.lineWidth = 1.5;
-		ctx.strokeStyle = colors.path;	
-		ctx.stroke();
+		ctx.strokeStyle = colors.path;
+		Math.seedrandom('test');
+		for(var i = 0; i < length - 1; i++){
+			ctx.beginPath();
+			ctx.moveTo(path[i][0], path[i][1]);
+			ctx.lineTo(path[i + 1][0], path[i + 1][1]);			
+			ctx.stroke();
+			if(Math.floor(util.random(0, 2)) == 0){
+				ctx.fillStyle = 'hsl(0, 0%, ' + util.random(40, 100) + '%)';	  
+				ctx.fillRect(path[i][0] + util.random(-15, 15) / 10, path[i][1] + util.random(-15, 15) / 10, util.random(1, 2) / 2, util.random(1, 2) / 2);
+			};
+		};		
 	};
 	ctx.restore();
 };
@@ -645,19 +654,21 @@ function loop(){
 		cursor.x = newPoint[0];
 		cursor.y = newPoint[1];
 		path.push(newPoint);
-		redrawFlag = true;
+		
 		if(skitchData.path.length == 0){
 			hasSkitch = false;
 		};
+		
+		renderPartialPath();
 	};
 	
 	cursor.update();
 	knobLeft.update();
 	knobRight.update();
 	
-	if(cursor.moving){	
+	if(cursor.moving){
 		knobLeft.render();
-		knobRight.render();	
+		knobRight.render();
 		renderPartialPath();
 	};
 	
