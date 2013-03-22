@@ -17,7 +17,7 @@ $page = array(
 	<?php $skitch_tick = 0; ?>
 	<?php foreach($skitches as $skitch){ ?>
 		<?php $skitch_tick++; ?>
-		<a href="http://itchaskitch.com/dev/<?php echo $skitch['id']; ?>"<?php if($skitch_tick % 2 == 0){ echo ' class="last"'; } ?>><img src="<?php echo $skitch['dataurl']; ?>" /></a>
+		<a href="http://itchaskitch.com/dev/<?php echo $skitch['id']; ?>"<?php if($skitch_tick % 2 == 0){ echo ' class="last"'; } ?>><img src="<?php echo awsPath.'/images/'.$skitch['id'].'.png'; ?>" /></a>
 	<?php } ?>
 </div><!-- end .skitch-grid -->
 <?php include 'inc/footer.php'; ?>

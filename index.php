@@ -12,7 +12,7 @@
 			header('Location: http://itchaskitch.com');
 		};
 		$skitch_id = $skitch['id'];		
-		$skitch_path = $skitch['path'];
+		$skitch_path = file_get_contents(awsPath.'/skitches/'.$skitch_id.'.json');
 	};
 	$has_skitch = !empty($skitch_id) && !empty($skitch_path);
 ?>

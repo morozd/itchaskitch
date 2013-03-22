@@ -1,9 +1,7 @@
 <?php 
 	// source = http://www.webdeveloper.com/forum/showthread.php?145686-force-image-to-download-not-to-display-in-browser
-	// Force download of image file specified in URL query string and which 
-	// is in the same directory as this script: 
 	if(!empty($_GET['img'])){ 
-		$basename = basename($_GET['img']); // don't accept other directories
+		$basename = basename($_GET['img']);
 		$filename = '../temp/'.$basename;
 		$size = @getimagesize($filename); 
 		$fp = @fopen($filename, "rb"); 
