@@ -20,7 +20,7 @@ body {
 
 .container {	
 	margin: 0 auto;
-	padding: 70px 0 30px;
+	padding: 0 0 30px;
 	width: 800px;
 }
 
@@ -94,10 +94,8 @@ p {
 nav {
 	background: #5c5952;
 	height: 40px;
-	position: fixed;
+	margin: 0 0 30px;
 	text-align: left;
-	width: 100%;
-	z-index: 20;
 }
 
 nav .inner {

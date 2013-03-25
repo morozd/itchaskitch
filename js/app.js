@@ -71,7 +71,15 @@ var win = window,
 	redrawFlag = false,
 	loopRAF = null,
 	eraseTimeout = null,
-	hasSkitch = skitchData.path.length > 0;
+	hasSkitch = skitchData.path.length > 0,
+	hasSkitchOx = width / 2,
+	hasSkitchOy = height / 2,
+	hasSkitchKnob = {
+		up: false,
+		right: false,
+		down: false,
+		left: false		
+	};
 		
 if(hasSkitch){
 	enableUndo();
@@ -240,23 +248,23 @@ Knob.prototype.reset = function(){
 /* Knob Update */
 /*==============================================================================*/
 Knob.prototype.update = function(){
-	if(cursor.moving){
+	//if(cursor.moving){
 		if(this.type == 'horizontal'){
-			if(direction.right){
+			if(direction.right || hasSkitchKnob.right){
 				this.rotation += this.speed;
 			};
-			if(direction.left){
+			if(direction.left || hasSkitchKnob.left){
 				this.rotation -= this.speed;
 			};
 		} else {
-			if(direction.up){
+			if(direction.up || hasSkitchKnob.up){
 				this.rotation += this.speed;
 			};
-			if(direction.down){
+			if(direction.down || hasSkitchKnob.down){
 				this.rotation -= this.speed;
 			};
 		};
-	};
+	//};
 };
 
 /*==============================================================================*/
@@ -264,8 +272,8 @@ Knob.prototype.update = function(){
 /*==============================================================================*/
 Knob.prototype.render = function(){
 	if(!rumbling){
-		ctx.beginPath();	
-		ctx.arc(this.x, this.y, this.radius + 5, 0, Math.PI * 2, false);
+		ctx.beginPath();
+		ctx.rect(this.x - this.radius - 5, this.y - this.radius - 5, this.radius * 2 + 10, this.radius * 2 + 10);
 		ctx.fillStyle = colors.background;
 		ctx.fill();
 		
@@ -583,6 +591,10 @@ function skip(){
 		redrawFlag = true;
 		cursor.x = path[path.length - 1][0];
 		cursor.y = path[path.length - 1][1];
+		hasSkitchKnob.up = false;
+		hasSkitchKnob.right = false;
+		hasSkitchKnob.down = false;
+		hasSkitchKnob.left = false;
 	};
 };
 
@@ -650,14 +662,46 @@ function pageVisibilityChange(){
 /*==============================================================================*/
 function loop(){
 	if(hasSkitch){
-		var newPoint = skitchData.path.shift();
+		var newPoint = skitchData.path.shift();		
 		cursor.x = newPoint[0];
 		cursor.y = newPoint[1];
+		
+		if(newPoint[0] > hasSkitchOx){
+			hasSkitchKnob.right = true;
+		} else {
+			hasSkitchKnob.right = false;
+		}
+		
+		if(newPoint[0] < hasSkitchOx){
+			hasSkitchKnob.left = true;
+		} else {
+			hasSkitchKnob.left = false;
+		}
+		
+		if(newPoint[1] > hasSkitchOy){
+			hasSkitchKnob.down = true;
+		} else {
+			hasSkitchKnob.down = false;
+		}
+		
+		if(newPoint[1] < hasSkitchOy){
+			hasSkitchKnob.up = true;
+		} else {
+			hasSkitchKnob.up = false;
+		}
+		
 		path.push(newPoint);
 		
 		if(skitchData.path.length == 0){
 			hasSkitch = false;
+			hasSkitchKnob.up = false;
+			hasSkitchKnob.right = false;
+			hasSkitchKnob.down = false;
+			hasSkitchKnob.left = false;
 		};
+		
+		hasSkitchOx = newPoint[0];
+		hasSkitchOy = newPoint[1];
 		
 		renderPartialPath();
 	};
@@ -665,10 +709,10 @@ function loop(){
 	cursor.update();
 	knobLeft.update();
 	knobRight.update();
+	knobLeft.render();
+	knobRight.render();
 	
-	if(cursor.moving){
-		knobLeft.render();
-		knobRight.render();
+	if(cursor.moving){		
 		renderPartialPath();
 	};
 	
@@ -685,6 +729,7 @@ function loop(){
 		updatePlaceholderImage();
 		redrawFlag = false;
 	};
+	
 };
 
 /*==============================================================================*/
@@ -698,7 +743,9 @@ function RAF(){
 /*==============================================================================*/
 /* Check for Canvas Support */
 /*==============================================================================*/
-if(util.canvasSupported){
-	$('html').removeClass('no-canvas');
-	init();
-};
+$(window).load(function(){
+	if(util.canvasSupported){
+		$('html').removeClass('no-canvas');
+		init();
+	};
+});
