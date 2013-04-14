@@ -14,26 +14,21 @@
 		<meta name="google-site-verification" content="5gd09tdIadOpQGdfCzde1GwHZRXcce5e_HYO6EYN6TE" />
 		<script src="//use.typekit.net/hbn2bub.js"></script>
 		<script>try{Typekit.load();}catch(e){}</script>
-		<link href="http://weloveiconfonts.com/api/?family=entypo" rel="stylesheet" />
 		<link href="<?php echo $app['url']; ?>/css/style.1.css" rel="stylesheet" />
 		<link href="<?php echo $app['url']; ?>/img/favicon.1.ico" rel="shortcut icon" type="image/x-icon" />	
 	</head>
-	<body class="page-<?php echo $page['parent']; ?>">
+	<body class="preload page-<?php echo $page['parent']; ?>">
 		<nav>
 			<div class="inner clearfix">
 			<a href="<?php echo $app['url']; ?>"<?php if($page['parent'] == 'home'){ echo ' class="current"'; } ?>>Itch A Skitch</a>
 			<a href="<?php echo $app['url']; ?>/skitches"<?php if($page['parent'] == 'skitches'){ echo ' class="current"'; } ?>>Latest Skitches</a>
 			<a href="<?php echo $app['url']; ?>/about"<?php if($page['parent'] == 'about'){ echo ' class="current"'; } ?>>About</a>
-			<a href="<?php echo $app['url']; ?>/contact"<?php if($page['parent'] == 'contact'){ echo ' class="current"'; } ?>>Contact</a>
 			</div><!-- end .inner -->
 		</nav>
 		<div class="container">
 			<header class="clearfix">
 				<h1><a href="<?php echo $app['url']; ?>">Itch A Skitch</a></h1>	
 				<?php if($page['parent'] == 'home'){ ?>
-					<h2><span>Press</span> <i class="entypo-left-open"></i><i class="entypo-right-open"></i><i class="entypo-up-open"></i><i class="entypo-down-open last"></i> <span>or</span> <i>W</i><i>A</i><i>S</i><i class="last">D</i> <span>to Start Itching</span></h2>		
+					<h2 class="directions-title<?php if(!$has_skitch){ echo ' hidden'; } ?>"><span>Press</span> <i class="icon-left-open"></i><i class="icon-right-open"></i><i class="icon-up-open"></i><i class="icon-down-open last"></i> <span>or</span> <i>W</i><i>A</i><i>S</i><i class="last">D</i> <span>to Start Itching</span></h2>		
 				<?php } ?>
 			</header>
-			<?php if($page['parent'] != 'home'){ ?>
-				<hr />
-			<?php } ?>

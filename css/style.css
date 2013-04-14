@@ -4,6 +4,45 @@
 html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,code,del,dfn,em,img,ins,kbd,q,samp,small,strong,sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video{ margin:0; padding:0; border:0; outline:0; font-size:100%; vertical-align:baseline; background:transparent}body{ line-height:1}article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary{ display:block}nav ul{ list-style:none}blockquote,q{ quotes:none}blockquote:before,blockquote:after,q:before,q:after{ content:''; content:none}a{ margin:0; padding:0; border:0; font-size:100%; vertical-align:baseline; background:transparent}ins{ background-color:#ff9; color:#000; text-decoration:none}mark{ background-color:#ff9; color:#000; font-style:italic; font-weight:bold}del{ text-decoration:line-through}abbr[title],dfn[title]{ border-bottom:1px dotted #000; cursor:help}table{ border-collapse:collapse; border-spacing:0}hr{ display:block; height:1px; border:0;  border-top:1px solid #ccc; margin:1em 0; padding:0}input,select{ vertical-align:middle}
 
 /*==============================================================================*/
+/* Fontello Icon @font-face */
+/*==============================================================================*/
+@font-face {
+	font-family: 'fontello';
+	src: url("../font/fontello.eot?74479063");
+	src: url("../font/fontello.eot?74479063#iefix") format('embedded-opentype'), url("../font/fontello.woff?74479063") format('woff'), url("../font/fontello.ttf?74479063") format('truetype'), url("../font/fontello.svg?74479063#fontello") format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+	font-family: 'fontello';
+	font-style: normal;
+	font-weight: normal;
+	speak: none;
+	display: inline-block;
+	text-decoration: inherit;
+	width: 1em;
+	text-align: center;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1em;
+}
+
+.icon-pencil:before { content: '\62'; } /* 'b' */
+.icon-ccw:before { content: '\6a'; } /* 'j' */
+.icon-export:before { content: '\6c'; } /* 'l' */
+.icon-comment:before { content: '\63'; } /* 'c' */
+.icon-share:before { content: '\64'; } /* 'd' */
+.icon-down-open:before { content: '\66'; } /* 'f' */
+.icon-left-open:before { content: '\67'; } /* 'g' */
+.icon-right-open:before { content: '\68'; } /* 'h' */
+.icon-up-open:before { content: '\69'; } /* 'i' */
+.icon-floppy:before { content: '\6b'; } /* 'k' */
+.icon-download:before { content: '\61'; } /* 'a' */
+.icon-clock:before { content: '\65'; } /* 'e' */
+
+/*==============================================================================*/
 /* General */
 /*==============================================================================*/
 html,
@@ -14,13 +53,14 @@ body {
 body {
 	background: #f7f6f1;
 	color: #5c5952;
-	font: normal 100%/1.5 'helvetica neue', helvetica, arial, sans-serif;
+	font: normal 100%/1.5 helvetica, arial, sans-serif;
 	-webkit-font-smoothing: antialiased;	
+	-webkit-text-size-adjust: 100%;	
 }
 
 .container {	
 	margin: 0 auto;
-	padding: 0 0 30px;
+	padding: 0 0 40px;
 	width: 800px;
 }
 
@@ -33,12 +73,12 @@ body {
 /*==============================================================================*/
 h3 {
 	color: #a49e90;
-	font-family: 'helvetica neue', helvetica, arial, sans-serif;
+	font-family: 'vinyl', helvetica, arial, sans-serif;
 	font-size: 22px;
-	font-weight: bold;
+	font-weight: 400;
 	letter-spacing: -1px;
-	margin: 0 0 30px;
-	text-shadow: 0 1px 0 #fff;
+	margin: 0 0 20px;
+	text-transform: uppercase;
 }
 
 a {
@@ -48,16 +88,12 @@ a {
 
 a,
 button {
-	-webkit-transition: all 300ms;
-	-moz-transition: all 300ms;
-	-o-transition: all 300ms;
-	-ms-transition: all 300ms;
 	transition: all 300ms;
 }
 
 a:hover,
 a:focus {
-	color: #a74b3f;
+	color: #5c5952;
 	transition: none;
 }
 
@@ -107,7 +143,7 @@ nav a {
 	color: #f7f6f1;
 	display: block;
 	float: left;
-	font-family: 'vinyl', 'helvetica neue', helvetica, arial, sans-serif;
+	font-family: 'vinyl', helvetica, arial, sans-serif;
 	font-size: 16px;
 	font-weight: 400;
 	height: 40px;
@@ -142,7 +178,7 @@ nav a.current:before {
 /* Header */
 /*==============================================================================*/
 header {
-	font-family: 'vinyl', 'helvetica neue', helvetica, arial, sans-serif;
+	font-family: 'vinyl', helvetica, arial, sans-serif;
 	font-weight: 400;
 	height: 40px;
 	line-height: 40px;
@@ -154,7 +190,6 @@ h1 {
 	font-size: 40px;
 	font-weight: 400;
 	letter-spacing: -1px;	
-	text-shadow: 0 1px 0 #fff;
 	text-transform: uppercase;
 }
 
@@ -173,6 +208,7 @@ h2 {
 	font-size: 16px;
 	font-weight: 400;	
 	text-transform: uppercase;
+	transition: opacity 600ms;
 	vertical-align: middle;
 }
 
@@ -183,9 +219,9 @@ h2 i {
 	font-size: 18px;
 	font-style: normal;
 	height: 30px;
-	line-height: 30px;
+	line-height: 31px;
 	margin: 0 3px 0 0;
-	text-align: center;
+	text-align: center;	
 	vertical-align: middle;
 	width: 36px;	
 }
@@ -197,11 +233,14 @@ h2 i.last {
 h2 span {
 	color: #bdb295;
 	padding: 0 10px;	
-	text-shadow: 0 1px 0 #fff;	
 }
 
 h2 span:last-child {
 	padding-right: 0;	
+}
+
+.directions-title.hidden {
+	opacity: 0;
 }
 
 /*==============================================================================*/
@@ -238,7 +277,9 @@ h2 span:last-child {
 
 .canvas-wrap canvas {
 	display: block;
+	height: 600px;
 	margin: 0;	
+	width: 800px;
 }
 
 .canvas-wrap .placeholder {
@@ -247,6 +288,59 @@ h2 span:last-child {
 	opacity: 0;
 	position: absolute;
 	top: 0;
+}
+
+/*==============================================================================*/
+/* Directions Overlay */
+/*==============================================================================*/
+.directions-overlay {	
+	display: inline-block;
+	float: right;
+	font-family: 'vinyl', helvetica, arial, sans-serif;
+	font-size: 16px;	
+	font-weight: 400;
+	height: 40px;	
+	left: 0;
+	line-height: 40px;
+	position: absolute;
+	text-align: center;
+	text-transform: uppercase;
+	transition: opacity 600ms;
+	top: 240px;
+	vertical-align: middle;
+	width: 100%;
+}
+
+.directions-overlay.hidden {
+	opacity: 0;
+}
+
+.directions-overlay i {
+	background: #fff;
+	border-bottom: 3px solid #b8b0ad;
+	display: inline-block;
+	font-size: 18px;
+	font-style: normal;
+	height: 30px;
+	line-height: 31px;
+	margin: 0 3px 0 0;
+	text-align: center;
+	vertical-align: middle;
+	width: 36px;	
+}
+
+.directions-overlay i.last {
+	margin-right: 0;
+}
+
+.directions-overlay span {
+	color: #bdb295;
+	color: #5c5952;
+	padding: 0 10px;	
+}
+
+.directions-overlay span:last-child {
+	padding-right: 0;	
 }
 
 /*==============================================================================*/
@@ -264,11 +358,10 @@ button {
 	cursor: pointer;
 	display: block;
 	float: left;
-	font: 400 18px/50px 'vinyl', 'helvetica neue', helvetica, arial, sans-serif;
+	font: 400 18px/50px 'vinyl', helvetica, arial, sans-serif;
 	height: 60px;
 	margin: 0;
 	position: relative;
-	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 	text-transform: uppercase;
 	width: 20%;
 }
@@ -318,16 +411,61 @@ button.disabled:active {
 	display: block;
 	float: left;
 	margin: 0 30px 30px 0;
-	-webkit-transform: translateZ(0);
+	position: relative;
 }	
 
 .skitch-grid a.last {
-	margin-right: 0;	
+	margin-right: 0;
 }
 
 .skitch-grid a img {
 	display: block;
+	height: 289px;
 	width: 385px;	
+}
+
+.skitch-grid a .skitch-info {
+	bottom: 0;
+	color: #f7efee;
+	font: normal 12px/72px helvetica, arial, sans-serif;
+	height: 72px;	
+	left: 0;
+	margin: 0;
+	position: absolute;
+	text-align: center;
+	width: 100%;
+}
+
+.skitch-grid a .skitch-info span.skitch-date {
+	vertical-align: middle;
+}
+
+.skitch-grid a .skitch-info span.icon-clock {
+	color: #a74b3f;
+	font-size: 18px;
+	margin: 0 3px 0 0;
+	vertical-align: middle;
+}
+
+.skitch-grid a .skitch-view {
+	background: rgba(250, 235, 215, .6);
+	color: #5c5952;
+	font: 400 26px/258px 'vinyl', helvetica, arial, sans-serif;
+	height: 289px;
+	left: 0;
+	letter-spacing: -1px;	
+	opacity: 0;
+	position: absolute;
+	text-align: center;
+	text-transform: uppercase;
+	top: 0;
+	transition: all 300ms;
+	width: 385px;
+}
+
+.skitch-grid a:hover .skitch-view,
+.skitch-grid a:focus .skitch-view {
+	opacity: 1;
 }
 
 /*==============================================================================*/
@@ -339,9 +477,8 @@ footer {
 
 footer p {
 	color: #afa48a;
-	font: normal 12px/1 'helvetica neue', helvetica, arial, sans-serif;
+	font: normal 12px/1 helvetica, arial, sans-serif;
 	margin: 0;	
-	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);	
 }
 
 footer span {
@@ -371,4 +508,12 @@ hr {
 	clear: both;
 	display: block;
 	margin: 0 0 40px;
+}
+
+.preload * {
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -ms-transition: none !important;
+  -o-transition: none !important;
+  transition: none !important;
 }

@@ -1,3 +1,5 @@
+function itchaskitch(){
+
 /*==============================================================================*/
 /* Page Visibility */
 /*==============================================================================*/
@@ -40,6 +42,9 @@ var win = window,
 	$placeholder = $('.placeholder'),
 	$loader = $('.loader'),
 	$skitchCount = $('.skitch-count'),
+	$comments = $('#disqus_thread'),
+	$directionsTitle = $('.directions-title'),
+	$directionsOverlay = $('.directions-overlay'),
 	$canvas = $('canvas'),
 	canvas = doc.getElementById('itchaskitch'),
 	ctx = canvas.getContext('2d'),
@@ -374,9 +379,11 @@ function renderFullPath(){
 /*==============================================================================*/
 /* Save */
 /*==============================================================================*/
-function save(){
+function save(e){
+	e.preventDefault();
 	if(ableTo.save){
 		toggleLoading();
+		$comments.remove();
 		$.ajax({
 			type: 'POST',
 			url: 'php/save-skitch.php',
@@ -502,7 +509,9 @@ function disableShare(){
 function newSkitch(){
 	if(ableTo.newSkitch){
 		if(confirm('Are you sure you want to erase and create a new skitch?')){
+			skip();
 			toggleLoading();
+			$comments.remove();
 			hasSkitch = false;
 			skitchData.path.length = 0;
 			clearTimeout(eraseTimeout);
@@ -520,7 +529,7 @@ function newSkitch(){
 					history.pushState(null, null, 'http://itchaskitch.com/dev/');
 				} else {
 					location = 'http://itchaskitch.com/dev/';
-				};
+				};				
 				disableSave();
 				disableUndo();
 				disableDownload();
@@ -606,7 +615,9 @@ $window.on('keydown', function(e){
 	if(!e.ctrlKey){
 		if($.inArray(key, [37, 38, 39, 40, 65, 68, 83, 87]) != -1){
 			e.preventDefault();
-			skip();			
+			skip();
+			$directionsTitle.removeClass('hidden');
+			$directionsOverlay.addClass('hidden');
 			enableUndo();
 			enableSave();
 			enableDownload();
@@ -740,12 +751,30 @@ function RAF(){
 	loop();
 };
 
+init();
+
+}; // end itchaskitch
+
 /*==============================================================================*/
-/* Check for Canvas Support */
+/* Check for Canvas Support, Remove Preload */
 /*==============================================================================*/
 $(window).load(function(){
-	if(util.canvasSupported){
-		$('html').removeClass('no-canvas');
-		init();
+	$('body').removeClass('preload');
+	if($('.page-home').length >= 1){
+		if(util.canvasSupported){
+			$('html').removeClass('no-canvas');
+			itchaskitch();
+		};
 	};
+});
+
+/*==============================================================================*/
+/* Set Proper Dates on List Page */
+/*==============================================================================*/
+$(function(){
+	$('.skitch-date').each(function(){
+		$this = $(this);
+		var date = $this.attr('data-gmt');
+		$this.text( moment.utc(date).fromNow() );
+	});
 });

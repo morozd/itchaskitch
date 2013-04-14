@@ -68,7 +68,7 @@ function get_skitches(){
 	try {
 		$pdo = new PDO('mysql:host='.DBHOST.';dbname='.DBNAME, DBUSER, DBPASS);
 		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$stmt = $pdo->prepare('SELECT * FROM skitches ORDER BY datetime DESC LIMIT 30');
+		$stmt = $pdo->prepare('SELECT * FROM skitches ORDER BY datetime DESC LIMIT 20');
 		$stmt->execute();
 		return $stmt->fetchAll();
 	} catch(PDOException $e) {
@@ -83,7 +83,7 @@ function save_skitch($path, $dataurl){
 		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		$stmt = $pdo->prepare('INSERT INTO skitches VALUES("", :date)');
 		$stmt->execute(array(
-			':date' => date('Y-m-d H:i:s')
+			':date' => gmdate('Y-m-d H:i:s')
 		));
 		$id = $pdo->lastInsertId();
 		echo $id;
