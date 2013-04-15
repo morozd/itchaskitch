@@ -408,6 +408,7 @@ button.disabled:active {
 }
 
 .skitch-grid a {
+	background: #cc5c4d;
 	display: block;
 	float: left;
 	margin: 0 30px 30px 0;

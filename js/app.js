@@ -69,13 +69,17 @@ var win = window,
 		undo: false,
 		download: false,
 		share: false,
-		newSkitch: false		
+		newSkitch: false,
+		draw: true
 	},
 	pageVisible = true,
 	rumbling = false,
 	redrawFlag = false,
 	loopRAF = null,
 	eraseTimeout = null,
+	saveTrigger = false,
+	saveTimeTotal = 300,
+	saveTimeTick = saveTimeTotal,
 	hasSkitch = skitchData.path.length > 0,
 	hasSkitchOx = width / 2,
 	hasSkitchOy = height / 2,
@@ -376,6 +380,14 @@ function renderFullPath(){
 	ctx.restore();
 };
 
+function enableDraw(){
+	ableTo.draw = true;
+};
+
+function disableDraw(){
+	ableTo.draw = false;
+};
+
 /*==============================================================================*/
 /* Save */
 /*==============================================================================*/
@@ -383,6 +395,9 @@ function save(e){
 	e.preventDefault();
 	if(ableTo.save){
 		toggleLoading();
+		disableDraw();
+		disableUndo();
+		disableSave();
 		$comments.remove();
 		$.ajax({
 			type: 'POST',
@@ -402,7 +417,9 @@ function save(e){
 				} else {
 					location = id;
 				};
-				disableSave();
+				enableDraw();
+				enableUndo();
+				saveTrigger = false;
 				toggleLoading();
 			});		
 		});
@@ -435,7 +452,7 @@ function undo(e){
 			disableSave();
 			disableDownload();
 		} else {
-			enableSave();	
+			saveTrigger = true;
 		}
 	};	
 };
@@ -612,16 +629,16 @@ function skip(){
 /*==============================================================================*/
 $window.on('keydown', function(e){	
 	var key = e.keyCode;
-	if(!e.ctrlKey){
+	if(!e.ctrlKey && ableTo.draw){
 		if($.inArray(key, [37, 38, 39, 40, 65, 68, 83, 87]) != -1){
 			e.preventDefault();
 			skip();
 			$directionsTitle.removeClass('hidden');
 			$directionsOverlay.addClass('hidden');
-			enableUndo();
-			enableSave();
+			enableUndo();			
 			enableDownload();
 			enableNewSkitch();
+			saveTrigger = true;
 		};
 		if(key == 38 || key == 87){ direction.up = true; };
 		if(key == 39 || key == 68){ direction.right = true; };
@@ -667,6 +684,15 @@ function pageVisibilityChange(){
 		direction[prop] = false;
 	};
 };
+
+/*==============================================================================*/
+/* Page Visibility Change */
+/*==============================================================================*/
+window.onbeforeunload = function() {
+	if(saveTrigger){
+		return 'You have unsaved changes on your skitch. Stop and press save if you want to keep your changes.';
+	};
+}
 
 /*==============================================================================*/
 /* Loop */
@@ -732,6 +758,13 @@ function loop(){
 		ctx.fillStyle = colors.screen;
 		ctx.fillRect(screen.x, screen.y, screen.width, screen.height);
 		ctx.globalAlpha = 1;
+	};
+	
+	if(saveTrigger && saveTimeTick >= saveTimeTotal){
+		enableSave();		
+		saveTimeTick = 0;
+	} else if(saveTimeTick < saveTimeTotal){
+		saveTimeTick++;
 	};
 	
 	if(redrawFlag){
