@@ -88,25 +88,29 @@ var win = window,
 		right: false,
 		down: false,
 		left: false		
-	};
-		
-if(hasSkitch){
-	enableUndo();
-	enableDownload();
-	enableNewSkitch();
-};
+	},
+	seed = new Date().getTime();
+	
 
-$canvas.jrumble({
-	x: 4,
-	y: 4,
-	rotation: 1
-});
-ctx.lineCap = 'round';
 
 /*==============================================================================*/
 /* Initialize */
 /*==============================================================================*/
-function init(){	
+function init(){
+	if(hasSkitch){
+		enableUndo();
+		enableDownload();
+		enableNewSkitch();
+	};
+	
+	$canvas.jrumble({
+		x: 4,
+		y: 4,
+		rotation: 1
+	});
+	
+	ctx.lineCap = 'round';
+	Math.seedrandom(seed);
 	RAF();
 	renderBackground();
 	renderScreen();
@@ -204,21 +208,7 @@ Cursor.prototype.update = function(){
 	};
 
 	if(this.moving){
-		var parallel = false;
-		var lastPointIndex = path.length - 1;
-		var lastPoint = path[lastPointIndex];
-		var secondLastPointIndex = path.length - 2;
-		var secondLastPoint = path[secondLastPointIndex];	
-		if(this.moving == this.omoving){
-			if(secondLastPointIndex > 1 && util.coord((this.y - lastPoint[1]) / (this.x - lastPoint[0])) == util.coord((lastPoint[1] - secondLastPoint[1]) / (lastPoint[0] - secondLastPoint[0]))){
-				parallel = true;	
-			};		
-		};		
-		//if(parallel){
-			//path[lastPointIndex] = [this.x, this.y];
-		//} else {
-			path.push([this.x, this.y]);
-		//};
+		path.push([this.x, this.y]);
 	};
 };
 
@@ -257,23 +247,21 @@ Knob.prototype.reset = function(){
 /* Knob Update */
 /*==============================================================================*/
 Knob.prototype.update = function(){
-	//if(cursor.moving){
-		if(this.type == 'horizontal'){
-			if(direction.right || hasSkitchKnob.right){
-				this.rotation += this.speed;
-			};
-			if(direction.left || hasSkitchKnob.left){
-				this.rotation -= this.speed;
-			};
-		} else {
-			if(direction.up || hasSkitchKnob.up){
-				this.rotation += this.speed;
-			};
-			if(direction.down || hasSkitchKnob.down){
-				this.rotation -= this.speed;
-			};
+	if(this.type == 'horizontal'){
+		if((direction.right || hasSkitchKnob.right) && cursor.x < screen.x + screen.width){
+			this.rotation += this.speed;
 		};
-	//};
+		if((direction.left || hasSkitchKnob.left) && cursor.x > screen.x){
+			this.rotation -= this.speed;
+		};
+	} else {
+		if((direction.up || hasSkitchKnob.up) && cursor.y > screen.y){
+			this.rotation += this.speed;
+		};
+		if((direction.down || hasSkitchKnob.down) && cursor.y < screen.y + screen.height){
+			this.rotation -= this.speed;
+		};
+	};
 };
 
 /*==============================================================================*/
@@ -365,7 +353,7 @@ function renderFullPath(){
 		ctx.shadowColor = '#fff';
 		ctx.lineWidth = 1.5;
 		ctx.strokeStyle = colors.path;
-		Math.seedrandom('test');
+		Math.seedrandom(seed);
 		for(var i = 0; i < length - 1; i++){
 			ctx.beginPath();
 			ctx.moveTo(path[i][0], path[i][1]);

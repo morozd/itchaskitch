@@ -107,6 +107,15 @@ p {
 	margin: 0 0 20px;	
 }
 
+ul {
+	list-style: inside circle;
+	margin: 0 0 20px;	
+}
+
+li {
+	font-size: 14px;	
+}
+
 [class*="entypo-"]:before {
 	font-family: 'entypo', sans-serif;
 	font-weight: normal !important;	
@@ -467,6 +476,7 @@ button.disabled:active {
 .skitch-grid a:hover .skitch-view,
 .skitch-grid a:focus .skitch-view {
 	opacity: 1;
+	transition: none;
 }
 
 /*==============================================================================*/

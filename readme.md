@@ -1,5 +1,5 @@
 # Itch A Skitch
 
-Retro Creative Canvas
+Canvas Powered Etch A Sketch
 
 **Still in development, but will live here:** <http://itchaskitch.com>
