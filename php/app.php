@@ -29,7 +29,7 @@ function get_page_image(){
 	global $app;
 	global $page;
 	if(empty($page['image'])){
-		return $app['url'].'/img/fb.png';
+		return $app['url'].'/img/placeholder.png';
 	} else {
 		return $page['image'];	
 	};

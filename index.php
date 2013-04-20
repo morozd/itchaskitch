@@ -21,7 +21,7 @@ $page = array(
 	'parent'      => 'home',
 	'title'       => '',
 	'description' => '',
-	'image'       => ''
+	'image'       => ($has_skitch) ? awsPath.'/images/'.$skitch['id'].'.png' : ''
 );
 ?>
 <?php include 'inc/header.php'; ?>
@@ -40,9 +40,13 @@ $page = array(
 			<span>Press</span> <i class="icon-left-open"></i><i class="icon-right-open"></i><i class="icon-up-open"></i><i class="icon-down-open last"></i> <span>or</span> <i>W</i><i>A</i><i>S</i><i class="last">D</i> <span>to Start Itching</span>
 		</div><!-- end .directions-overlay -->
 	<?php } ?>
+	<div class="share-wrap">
+	
+	</div><!-- end .share-wrap -->
 </div><!-- end .canvas-wrap -->
 
 <?php if($has_skitch){ ?>
+	<p>Skitch made <span class="skitch-date" data-gmt="<?php echo $skitch['datetime']; ?>"></span></p>
 	<div id="disqus_thread"></div>
 	<script type="text/javascript">
 	/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */

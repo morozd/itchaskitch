@@ -100,6 +100,7 @@ function init(){
 	if(hasSkitch){
 		enableUndo();
 		enableDownload();
+		enableShare();
 		enableNewSkitch();
 	};
 	
@@ -494,7 +495,12 @@ function disableDownload(){
 /*==============================================================================*/
 function share(){
 	if(ableTo.share){
-		
+		skip();
+		if(saveTrigger){
+			// need to save first!
+		} else {
+			// ready to share!
+		}
 	};
 };
 
@@ -626,6 +632,7 @@ $window.on('keydown', function(e){
 			enableUndo();			
 			enableDownload();
 			enableNewSkitch();
+			enableShare();
 			saveTrigger = true;
 		};
 		if(key == 38 || key == 87){ direction.up = true; };
