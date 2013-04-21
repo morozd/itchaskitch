@@ -11,6 +11,8 @@
 		<meta property="og:image" content="<?php echo get_page_image(); ?>" />
 		<meta property="og:url" content="<?php echo current_url(); ?>" />
 		<meta property="og:type" content="website" />
+		<meta property="fb:app_id" content="545425965492226" />
+		<meta property="fb:admins" content="632804651" />
 		<meta name="google-site-verification" content="5gd09tdIadOpQGdfCzde1GwHZRXcce5e_HYO6EYN6TE" />
 		<script src="//use.typekit.net/hbn2bub.js"></script>
 		<script>try{Typekit.load();}catch(e){}</script>
@@ -21,6 +23,7 @@
 		<nav>
 			<div class="inner clearfix">
 			<a href="<?php echo $app['url']; ?>"<?php if($page['parent'] == 'home'){ echo ' class="current"'; } ?>>Itch A Skitch</a>
+			<a href="<?php echo $app['url']; ?>/skitches/featured"<?php if($page['parent'] == 'featured-skitches'){ echo ' class="current"'; } ?>>Featured Skitches</a>
 			<a href="<?php echo $app['url']; ?>/skitches"<?php if($page['parent'] == 'skitches'){ echo ' class="current"'; } ?>>Latest Skitches</a>
 			<a href="<?php echo $app['url']; ?>/about"<?php if($page['parent'] == 'about'){ echo ' class="current"'; } ?>>About</a>
 			</div><!-- end .inner -->

@@ -38,11 +38,15 @@ function get_page_image(){
 /*==============================================================================*/
 /* Skitches */
 /*==============================================================================*/
-function get_skitch_count(){
+function get_skitch_count($featured = false){
 	try {
 		$pdo = new PDO('mysql:host='.DBHOST.';dbname='.DBNAME, DBUSER, DBPASS);
 		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$stmt = $pdo->prepare('SELECT count(*) FROM skitches');
+		if($featured){
+			$stmt = $pdo->prepare('SELECT count(*) FROM skitches WHERE featured = 1');
+		} else {
+			$stmt = $pdo->prepare('SELECT count(*) FROM skitches');
+		}
 		$stmt->execute();
 		return $stmt->fetchColumn();
 	} catch(PDOException $e) {
@@ -64,11 +68,26 @@ function get_skitch($id){
 	}
 };
 
-function get_skitches(){
+function get_skitches($featured = false, $offset = null, $per_page = null){
 	try {
 		$pdo = new PDO('mysql:host='.DBHOST.';dbname='.DBNAME, DBUSER, DBPASS);
 		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$stmt = $pdo->prepare('SELECT * FROM skitches ORDER BY datetime DESC LIMIT 20');
+		$add_limit = (isset($offset, $per_page));
+		if($add_limit){
+			if($featured){
+				$stmt = $pdo->prepare('SELECT * FROM skitches WHERE featured = 1 ORDER BY datetime DESC LIMIT :offset, :per_page');
+			} else {
+				$stmt = $pdo->prepare('SELECT * FROM skitches ORDER BY datetime DESC LIMIT :offset, :per_page');
+			}
+			$stmt->bindValue(':offset', intval(trim($offset)), PDO::PARAM_INT);
+			$stmt->bindValue(':per_page', intval(trim($per_page)), PDO::PARAM_INT);
+		} else {
+			if($featured){
+				$stmt = $pdo->prepare('SELECT * FROM skitches WHERE featured = 1 ORDER BY datetime DESC LIMIT 30');
+			} else {
+				$stmt = $pdo->prepare('SELECT * FROM skitches ORDER BY datetime DESC LIMIT 30');
+			}
+		}		
 		$stmt->execute();
 		return $stmt->fetchAll();
 	} catch(PDOException $e) {
@@ -81,7 +100,7 @@ function save_skitch($path, $dataurl){
 	try {		
 		$pdo = new PDO('mysql:host='.DBHOST.';dbname='.DBNAME, DBUSER, DBPASS);  
 		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$stmt = $pdo->prepare('INSERT INTO skitches VALUES("", :date)');
+		$stmt = $pdo->prepare('INSERT INTO skitches VALUES("", 0, :date)');
 		$stmt->execute(array(
 			':date' => gmdate('Y-m-d H:i:s')
 		));
@@ -129,6 +148,34 @@ function check_temp_cache(){
 		closedir($handle); 
 	};
 };
+
+/*==============================================================================*/
+/* Pagination */
+/*==============================================================================*/
+function pagination($page, $pages){ 	
+	$page = (int) $page;
+	$pages = (int) $pages;
+	$range = 5;
+	$showitems = ($range * 2)+1;	
+	if(1 != $pages){
+		echo '<ul class="pagination clearfix">';
+		if($page > 2 && $page > $range+1 && $showitems < $pages) echo '<li><a href="?page=1" title="First">&laquo;</a></li>';
+		if($page > 1 && $showitems < $pages) echo '<li><a href="?page='.($page-1).'" title="Previous">&lsaquo;</a></li>';		
+		for ($i=1; $i <= $pages; $i++){
+			if (1 != $pages &&( !($i >= $page+$range+1 || $i <= $page-$range-1) || $pages <= $showitems )){
+				if($page == $i){
+					$class = 'current'; 
+				} else {
+					$class = ''; 
+				}
+				echo '<li class="'.$class.'"><a href="?page='.$i.'">'.$i.'</a></li>';
+			}
+		}		
+		if ($page < $pages && $showitems < $pages) echo '<li><a href="?page='.($page+1).'" title="Next">&rsaquo;</a></li>';  
+		if ($page < $pages-1 && $page+$range-1 < $pages && $showitems < $pages) echo '<li><a href="?page='.$pages.'" title="Last">&raquo;</a></li>';
+		echo '</ul>';
+	}
+}
 
 /*==============================================================================*/
 /* Miscellaneous and Utility */

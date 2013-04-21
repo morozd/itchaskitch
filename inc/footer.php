@@ -1,6 +1,14 @@
 			<hr />
 			<footer>
-				<p>&copy; <?php echo date('Y'); ?> <a href="http://jackrugile.com"><strong>Jack Rugile </strong></a> <span>//</span> <strong class="skitch-count"><?php echo get_skitch_count(); ?></strong> Skitches <span>//</span> Found a bug or have a suggestion? <a href="https://github.com/jackrugile/itchaskitch/issues"><strong>Submit an Issue on GitHub</strong></a></p>
+				<p>
+					&copy; <?php echo date('Y'); ?> Itch A Skitch					 
+					<span class="divider">//</span>
+					<a href="<?php echo $app['url']; ?>/skitches"><span class="skitch-count"><?php echo get_skitch_count(); ?></span> Skitches</a>
+					<span class="divider">//</span>
+					Found a bug or have a suggestion? <a href="https://github.com/jackrugile/itchaskitch/issues">Submit an Issue on GitHub</a>
+					<span class="divider">//</span>
+					By <a href="http://jackrugile.com">Jack Rugile</a>
+				</p>
 			</footer>		
 		</div><!-- end .container -->
 		<div class="loader">

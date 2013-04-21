@@ -50,6 +50,10 @@ body {
 	height: 100%;	
 }
 
+html {
+	overflow-y: scroll;	
+}
+
 body {
 	background: #f7f6f1;
 	color: #5c5952;
@@ -77,7 +81,17 @@ h3 {
 	font-size: 22px;
 	font-weight: 400;
 	letter-spacing: -1px;
+	line-height: 22px;
 	margin: 0 0 20px;
+	text-transform: uppercase;
+}
+
+h4 {
+	font-family: 'vinyl', helvetica, arial, sans-serif;
+	font-size: 18px;
+	font-weight: 400;
+	letter-spacing: -1px;
+	margin: 0 0 5px;
 	text-transform: uppercase;
 }
 
@@ -110,6 +124,16 @@ p {
 ul {
 	list-style: inside circle;
 	margin: 0 0 20px;	
+}
+
+ol {
+	list-style: inside lower-alpha;	
+	margin: 0 0 20px 0;
+}
+
+ol ol {
+	list-style: inside lower-roman;
+	margin: 0 0 0 20px;
 }
 
 li {
@@ -353,6 +377,45 @@ h2 span:last-child {
 }
 
 /*==============================================================================*/
+/* Time Overlay */
+/*==============================================================================*/
+.time-overlay {
+	bottom: 60px;
+	color: #a74b3f;	
+	font: 400 18px/150px 'vinyl', helvetica, arial, sans-serif;
+	height: 150px;
+	left: 0;
+	position: absolute;	
+	text-align: center;
+	text-transform: uppercase;
+	width: 100%;
+}
+
+.time-overlay  span.icon-clock {
+	color: #a74b3f;
+	font-size: 18px;
+	margin: 0 3px 0 0;
+	vertical-align: middle;
+}
+
+.time-overlay span.skitch-date {
+	vertical-align: middle;
+}
+
+/*==============================================================================*/
+/* Share Overlay */
+/*==============================================================================*/
+.share-overlay {
+	background: rgba(250, 235, 215, .8);
+	display: none;
+	height: 600px;
+	left: 0;
+	position: absolute;
+	top: 0;
+	width: 100%;
+}
+
+/*==============================================================================*/
 /* Controls */
 /*==============================================================================*/
 .no-canvas .controls {
@@ -410,35 +473,42 @@ button.disabled:active {
 }
 
 /*==============================================================================*/
+/* Disqus Comments */
+/*==============================================================================*/
+#disqus_thread {
+	display: none;	
+}
+
+/*==============================================================================*/
 /* Skitch Grid */
 /*==============================================================================*/
 .skitch-grid {
-		
+		padding: 0 0 23px;
 }
 
 .skitch-grid a {
 	background: #cc5c4d;
 	display: block;
 	float: left;
-	margin: 0 30px 30px 0;
+	margin: 0 16px 16px 0;
 	position: relative;
 }	
 
-.skitch-grid a.last {
+.skitch-grid a.end-row {
 	margin-right: 0;
 }
 
 .skitch-grid a img {
 	display: block;
-	height: 289px;
-	width: 385px;	
+	height: 192px;
+	width: 256px;
 }
 
 .skitch-grid a .skitch-info {
 	bottom: 0;
 	color: #f7efee;
-	font: normal 12px/72px helvetica, arial, sans-serif;
-	height: 72px;	
+	font: normal 12px/48px helvetica, arial, sans-serif;
+	height: 48px;	
 	left: 0;
 	margin: 0;
 	position: absolute;
@@ -460,8 +530,8 @@ button.disabled:active {
 .skitch-grid a .skitch-view {
 	background: rgba(250, 235, 215, .6);
 	color: #5c5952;
-	font: 400 26px/258px 'vinyl', helvetica, arial, sans-serif;
-	height: 289px;
+	font: 400 22px/172px 'vinyl', helvetica, arial, sans-serif;
+	height: 192px;
 	left: 0;
 	letter-spacing: -1px;	
 	opacity: 0;
@@ -470,13 +540,50 @@ button.disabled:active {
 	text-transform: uppercase;
 	top: 0;
 	transition: all 300ms;
-	width: 385px;
+	width: 256px;
 }
 
 .skitch-grid a:hover .skitch-view,
 .skitch-grid a:focus .skitch-view {
 	opacity: 1;
 	transition: none;
+}
+
+/*==============================================================================*/
+/* Pagination */
+/*==============================================================================*/
+.pagination {
+	list-style: none;
+	margin: 0 0 30px;
+	padding: 0;
+}
+
+.pagination li {
+	display: block;
+	float: left;
+	margin: 0 1px 0 0;
+}
+
+.pagination a {	
+	background: #e5ddc8;
+	color: #5c5952;
+	display: block;
+	font-size: 12px;
+	font-weight: bold;
+	height: 30px;
+	line-height: 30px;
+	padding: 0 11px;
+}
+
+.pagination a:hover,
+.pagination a:focus {
+	background: #c1baa8;
+	color: #373531;
+}
+
+.pagination .current a {
+	background: #cc5c4d;
+	color:	#f7efee;
 }
 
 /*==============================================================================*/
@@ -492,9 +599,34 @@ footer p {
 	margin: 0;	
 }
 
-footer span {
+footer a {
+	font-weight: bold;	
+}
+
+footer .divider {
 	color: #afa48a;
-	margin: 0 10px;
+	margin: 0 14px;
+}
+
+/*==============================================================================*/
+/* Webkit Scrollbars */
+/*==============================================================================*/
+::-webkit-scrollbar {
+	width: 15px;
+}
+
+::-webkit-scrollbar-track {
+	background: #fff;
+	border-left: 1px solid #5c5952;
+}
+
+::-webkit-scrollbar-thumb {
+	background: #c5beac;
+	border-left: 1px solid #5c5952;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: #e5ddc8;
 }
 
 /*==============================================================================*/
@@ -522,9 +654,9 @@ hr {
 }
 
 .preload * {
-  -webkit-transition: none !important;
-  -moz-transition: none !important;
-  -ms-transition: none !important;
-  -o-transition: none !important;
-  transition: none !important;
+	-webkit-transition: none !important;
+	-moz-transition: none !important;
+	-ms-transition: none !important;
+	-o-transition: none !important;
+	transition: none !important;
 }

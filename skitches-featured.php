@@ -1,23 +1,23 @@
 <?php require 'php/config.php'; ?>
 <?php require 'php/app.php'; ?>
 <?php
-$count = get_skitch_count();
+$count = get_skitch_count(true);
 $page_number = (isset($_GET['page'])) ? (int)$_GET['page'] : 1;
 $per_page = 30;
 $offset = $per_page * ($page_number-1);
 $pages = ceil($count / $per_page);
-$skitches = get_skitches(false, $offset, $per_page);
+$skitches = get_skitches(true, $offset, $per_page);
 ?>
 <?php
 $page = array(
-	'parent'      => 'skitches',
-	'title'       => (($page_number > 1) ? 'Page '.$page_number.$app['divider'] : '').'Latest Skitches'.$app['divider'].$app['title'],
+	'parent'      => 'featured-skitches',
+	'title'       => (($page_number > 1) ? 'Page '.$page_number.$app['divider'] : '').'Featured Skitches'.$app['divider'].$app['title'],
 	'description' => '',
 	'image'       => ''
 );
 ?>
 <?php include 'inc/header.php'; ?>
-<h3>Latest Skitches</h3>
+<h3>Featured Skitches</h3>
 <div class="skitch-grid clearfix">
 	<?php if(count($skitches) > 0){ ?>
 		<?php $skitch_tick = 0; ?>

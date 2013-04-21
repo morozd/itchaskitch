@@ -40,27 +40,27 @@ $page = array(
 			<span>Press</span> <i class="icon-left-open"></i><i class="icon-right-open"></i><i class="icon-up-open"></i><i class="icon-down-open last"></i> <span>or</span> <i>W</i><i>A</i><i>S</i><i class="last">D</i> <span>to Start Itching</span>
 		</div><!-- end .directions-overlay -->
 	<?php } ?>
-	<div class="share-wrap">
-	
-	</div><!-- end .share-wrap -->
+	<?php if($has_skitch){ ?>
+		<div class="time-overlay">
+			<span class="icon-clock"></span> <span class="skitch-date" data-gmt="<?php echo $skitch['datetime']; ?>"></span>
+		</div><!-- end .time-overlay -->
+	<?php } ?>
+	<div class="share-overlay">
+		<div class="block">URL: <span class="share-url">http://itchaskitch.com/dev/234</span></div>
+		<a href="" class="block share-facebook">Share on Facebook</a>
+		<a href="" class="block share-">Share on Twitter</a>
+	</div><!-- end .share-overlay -->
 </div><!-- end .canvas-wrap -->
-
-<?php if($has_skitch){ ?>
-	<p>Skitch made <span class="skitch-date" data-gmt="<?php echo $skitch['datetime']; ?>"></span></p>
-	<div id="disqus_thread"></div>
-	<script type="text/javascript">
-	/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-	var disqus_shortname = 'itchaskitch'; // required: replace example with your forum shortname
-	
-	/* * * DON'T EDIT BELOW THIS LINE * * */
+<div id="disqus_thread"></div>
+	<script>
+	var disqus_shortname = 'itchaskitch'; 
+	var disqus_identifier = '<?php echo ($has_skitch) ? $skitch_id : 'itchaskitch'; ?>';		
 	(function() {
-	var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-	dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-	(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+		var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+		dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
 	})();
-	</script>
-	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-	<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-<?php } ?>
-
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 <?php include 'inc/footer.php'; ?>

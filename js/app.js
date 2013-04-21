@@ -6,7 +6,6 @@ function itchaskitch(){
 // http://stackoverflow.com/questions/1060008/is-there-a-way-to-detect-if-a-browser-window-is-not-currently-active
 (function() {	
 	var hidden = "hidden";
-    // Standards:
     if (hidden in document)
         document.addEventListener("visibilitychange", pageVisibilityChange);
     else if ((hidden = "mozHidden") in document)
@@ -15,12 +14,8 @@ function itchaskitch(){
         document.addEventListener("webkitvisibilitychange", pageVisibilityChange);
     else if ((hidden = "msHidden") in document)
         document.addEventListener("msvisibilitychange", pageVisibilityChange);
-
-    // IE 9 and lower:
     else if ('onfocusin' in document)
         document.onfocusin = document.onfocusout = pageVisibilityChange;
-
-    // All others:
     else
         window.onfocus = window.onblur = pageVisibilityChange;
 })();
@@ -43,8 +38,13 @@ var win = window,
 	$loader = $('.loader'),
 	$skitchCount = $('.skitch-count'),
 	$comments = $('#disqus_thread'),
+	$timeOverlay = $('.time-overlay'),
 	$directionsTitle = $('.directions-title'),
 	$directionsOverlay = $('.directions-overlay'),
+	$shareOverlay = $('.share-overlay'),
+	$shareUrl = $('.share-url'),
+	$shareFacebook = $('.share-facebook'),
+	$shareTwitter = $('.share-twitter'),
 	$canvas = $('canvas'),
 	canvas = doc.getElementById('itchaskitch'),
 	ctx = canvas.getContext('2d'),
@@ -90,8 +90,6 @@ var win = window,
 		left: false		
 	},
 	seed = new Date().getTime();
-	
-
 
 /*==============================================================================*/
 /* Initialize */
@@ -102,6 +100,7 @@ function init(){
 		enableDownload();
 		enableShare();
 		enableNewSkitch();
+		$comments.show();
 	};
 	
 	$canvas.jrumble({
@@ -387,7 +386,7 @@ function save(e){
 		disableDraw();
 		disableUndo();
 		disableSave();
-		$comments.remove();
+		$timeOverlay.remove();
 		$.ajax({
 			type: 'POST',
 			url: 'php/save-skitch.php',
@@ -409,6 +408,14 @@ function save(e){
 				enableDraw();
 				enableUndo();
 				saveTrigger = false;
+				DISQUS.reset({
+					reload: true,
+					config: function () {  
+						this.page.identifier = id;  
+						this.page.url = location.href;
+					}
+				});
+				$comments.show();
 				toggleLoading();
 			});		
 		});
@@ -504,6 +511,24 @@ function share(){
 	};
 };
 
+function setShareData(){
+	$shareUrl.text();
+	$shareFacebook.attr('href', '');
+	$shareTwitter.attr('href', '');
+	// url
+	//https://twitter.com/intent/tweet?url=http%3A%2F%2Fsketchtoy.com%2F29847558&text=Check%20out%20this%20drawing!&related=sketchtoy&via=sketchtoy&hashtags=sketchtoy
+	/*
+	https://www.facebook.com/dialog/feed?
+  app_id=458358780877780&
+  link=https://developers.facebook.com/docs/reference/dialogs/&
+  picture=http://fbrell.com/f8.jpg&
+  name=Facebook%20Dialogs&
+  caption=Reference%20Documentation&
+  description=Using%20Dialogs%20to%20interact%20with%20users.&
+  redirect_uri=https://mighty-lowlands-6381.herokuapp.com/
+  */
+};
+
 function enableShare(){
 	ableTo.share = true;
 	$share.removeClass('disabled');
@@ -522,7 +547,8 @@ function newSkitch(){
 		if(confirm('Are you sure you want to erase and create a new skitch?')){
 			skip();
 			toggleLoading();
-			$comments.remove();
+			$timeOverlay.remove();
+			$comments.hide();
 			hasSkitch = false;
 			skitchData.path.length = 0;
 			clearTimeout(eraseTimeout);
@@ -669,7 +695,7 @@ $save.on('click', save);
 $download.on('click', download);
 $share.on('click', share);
 $newSkitch.on('click', newSkitch);
-$placeholder.on('click', skip);
+$canvasWrap.on('click', skip);
 
 /*==============================================================================*/
 /* Page Visibility Change */
@@ -681,13 +707,13 @@ function pageVisibilityChange(){
 };
 
 /*==============================================================================*/
-/* Page Visibility Change */
+/* Unsaved Changes Prompt */
 /*==============================================================================*/
-window.onbeforeunload = function() {
+window.onbeforeunload = function(){
 	if(saveTrigger){
 		return 'You have unsaved changes on your skitch. Stop and press save if you want to keep your changes.';
 	};
-}
+};
 
 /*==============================================================================*/
 /* Loop */

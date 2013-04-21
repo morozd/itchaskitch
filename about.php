@@ -4,7 +4,7 @@
 $page = array(
 	'parent'      => 'about',
 	'title'       => 'About'.$app['divider'].$app['title'],
-	'description' => 'Information about Itch A Skitch.',
+	'description' => '',
 	'image'       => ''
 );
 ?>
@@ -16,5 +16,5 @@ $page = array(
 	<li><a href="http://reallygood.co.il/games/sketch/">Etch a Sketch with HTML5 Canvas</a> by Ronny Orbach</li>
 </ul>
 <p>And of course, a big thanks to the original Etch A Sketch by Andre Cassagnes and <a href="http://www.ohioart.com/">Ohio Art</a>.</p>
-<p>If you find a bug or have any suggestions, feel free to <a href="https://github.com/jackrugile/itchaskitch/issues">submit an issue on GitHub</a> or email me at jack<span style="display:none">*</span>@jackrugile.com</p>
+<p>If you find a bug or have any suggestions, feel free to <a href="https://github.com/jackrugile/itchaskitch/issues">submit an issue on GitHub</a> or email me at contact<span style="display:none">*</span>@itchaskitch.com</p>
 <?php include 'inc/footer.php'; ?>
