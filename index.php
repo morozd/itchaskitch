@@ -26,8 +26,11 @@ $page = array(
 ?>
 <?php include 'inc/header.php'; ?>
 <div class="canvas-wrap">
-	<canvas id="itchaskitch">Itch A Skitch requires canvas, but your browser does not support it. Please download the latest version of a browser that supports canvas, such as <a href="https://google.com/chrome">Chrome</a>, <a href="http://mozilla.org/firefox">Firefox</a>, <a href="http://www.opera.com/download/">Opera</a>, <a href="http://support.apple.com/downloads/#internet">Safari</a> or <a href="http://windows.microsoft.com/en-US/internet-explorer/download-ie">Internet Explorer 9+</a>.</canvas>
+	<canvas id="itchaskitch"></canvas>
 	<img src="img/placeholder.png" class="placeholder" alt="Itch A Skitch Placeholder" />
+	<?php if($has_skitch){ ?>
+		<img src="<?php echo awsPath.'/images/'.$skitch['id'].'.png'; ?>" class="no-canvas-skitch" />
+	<?php } ?>
 	<div class="controls clearfix">	
 		<button class="new-skitch disabled"><span class="icon-pencil"></span> New Skitch</button>				
 		<button class="save disabled" title="Keyboard: Ctrl + S"><span class="icon-floppy"></span> Save</button>
@@ -35,6 +38,11 @@ $page = array(
 		<button class="download disabled" title="800 &times; 600 PNG"><span class="icon-download"></span> Download</button>
 		<button class="share disabled"><span class="icon-export"></span> Share</button>							
 	</div><!-- end .controls -->
+	<?php if(!$has_skitch){ ?>
+		<div class="no-canvas-overlay">
+			Itch A Skitch requires canvas, but your browser does not support it. Please download the latest version of a browser that supports canvas, such as <a href="https://google.com/chrome">Chrome</a>, <a href="http://mozilla.org/firefox">Firefox</a>, <a href="http://www.opera.com/download/">Opera</a>, <a href="http://support.apple.com/downloads/#internet">Safari</a> or <a href="http://windows.microsoft.com/en-US/internet-explorer/download-ie">Internet Explorer 9+</a>.
+		</div><!-- end .no-canvas-overlay -->
+	<?php } ?>
 	<?php if(!$has_skitch){ ?>
 		<div class="directions-overlay">
 			<span>Press</span> <i class="icon-left-open"></i><i class="icon-right-open"></i><i class="icon-up-open"></i><i class="icon-down-open last"></i> <span>or</span> <i>W</i><i>A</i><i>S</i><i class="last">D</i> <span>to Start Itching</span>
@@ -51,8 +59,12 @@ $page = array(
 		<a href="" class="block share-">Share on Twitter</a>
 	</div><!-- end .share-overlay -->
 </div><!-- end .canvas-wrap -->
-<div id="disqus_thread"></div>
-	<script>
+<?php if($has_skitch){ ?>
+	<div id="disqus_thread" class="has-skitch"></div>
+<?php } else { ?>
+	<div id="disqus_thread" class="no-skitch"></div>
+<?php } ?>
+<script>
 	var disqus_shortname = 'itchaskitch'; 
 	var disqus_identifier = '<?php echo ($has_skitch) ? $skitch_id : 'itchaskitch'; ?>';		
 	(function() {
@@ -61,6 +73,4 @@ $page = array(
 		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
 	})();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 <?php include 'inc/footer.php'; ?>

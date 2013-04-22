@@ -1,5 +1,9 @@
 <!doctype html>
-<html class="no-canvas">
+<!--[if lt IE 7]><html class="no-js lt-ie10 lt-ie9 lt-ie8 lt-ie7" lang="en"><![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie10 lt-ie9 lt-ie8 ie7" lang="en"><![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie10 lt-ie9 ie8" lang="en"><![endif]-->
+<!--[if IE 9]><html class="no-js lt-ie10 ie9" lang="en"<![endif]-->
+<!--[if gt IE 9]><!--><html lang="en" class="no-js"><!--<![endif]-->
 	<head>
 		<meta charset="utf-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -17,7 +21,9 @@
 		<script src="//use.typekit.net/hbn2bub.js"></script>
 		<script>try{Typekit.load();}catch(e){}</script>
 		<link href="<?php echo $app['url']; ?>/css/style.1.css" rel="stylesheet" />
-		<link href="<?php echo $app['url']; ?>/img/favicon.1.ico" rel="shortcut icon" type="image/x-icon" />	
+		<link href="<?php echo $app['url']; ?>/img/favicon.1.ico" rel="shortcut icon" type="image/x-icon" />
+		<script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+		<script>if(typeof Modernizr == 'undefined'){document.write(unescape("%3Cscript src='<?php echo $app['url']; ?>/js/modernizr.min.js'%3E%3C/script%3E"));}</script>
 	</head>
 	<body class="preload page-<?php echo $page['parent']; ?>">
 		<nav>
