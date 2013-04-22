@@ -15,7 +15,6 @@
 			<img src="<?php echo $app['url']; ?>/img/loader.gif" alt="Loader Animation" />
 		</div><!-- end .loader -->
 		<script src="<?php echo $app['url']; ?>/js/lib.1.js"></script>
-		<script src="<?php echo $app['url']; ?>/js/util.1.js"></script>
 		<script>
 			var skitchData = skitchData || {};
 			skitchData.id = <?php echo (empty($skitch_id)) ? 'null' : $skitch_id; ?>;
