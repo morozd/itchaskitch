@@ -95,6 +95,7 @@ function itchaskitch(){
 			down: false,
 			left: false
 		},
+		lastTarget = null,
 		seed = new Date().getTime(),
 		watermark = new Image();
 	
@@ -780,11 +781,19 @@ function itchaskitch(){
 	/*==============================================================================*/
 	/* Unsaved Changes Prompt */
 	/*==============================================================================*/
-	window.onbeforeunload = function() {
-		if( saveTrigger ){
+	window.onbeforeunload = function(e) {
+		if( saveTrigger && ( lastTarget != 'download' && lastTarget != 'icon-download' ) ){
 			return 'You have unsaved changes on your skitch. Stop and press save if you want to keep your changes.';
 		}
 	};
+	
+	/*==============================================================================*/
+	/* Click Tracking For Download Button */
+	/*==============================================================================*/
+	/* Used to allow for download without triggering onbeforeunload warning */
+	$body.on( 'click', function( e ){
+		lastTarget = e.target.className || null;
+	});
 	
 	/*==============================================================================*/
 	/* Loop */

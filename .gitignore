@@ -1,4 +1,6 @@
+backups/
 img/
+php/backup.php
 php/config.php
 temp/
 .htaccess
