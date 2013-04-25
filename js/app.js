@@ -30,9 +30,12 @@ function itchaskitch(){
 		$directionsTitle = $( '.directions-title' ),
 		$directionsOverlay = $( '.directions-overlay' ),
 		$shareOverlay = $( '.share-overlay' ),
+		$shareClose = $( '.share-close' ),
 		$shareUrl = $( '.share-url' ),
+		$shareImage = $( '.share-image' ),
 		$shareFacebook = $( '.share-facebook' ),
 		$shareTwitter = $( '.share-twitter' ),
+		$shareGooglePlus = $( '.share-google-plus' ),
 		$canvas = $( 'canvas' ),
 		canvas = doc.getElementById( 'itchaskitch' ),
 		ctx = canvas.getContext( '2d' ),
@@ -81,6 +84,7 @@ function itchaskitch(){
 		pageVisible = true,
 		rumbling = false,
 		redrawFlag = false,
+		shareFlag = false,
 		loopRAF = null,
 		eraseTimeout = null,
 		saveTrigger = false,
@@ -427,7 +431,9 @@ function itchaskitch(){
 	/* Save */
 	/*==============================================================================*/
 	function save( e ) {
-		e.preventDefault();
+		if( e ) {
+			e.preventDefault();
+		}
 		if( ableTo.save ) {
 			toggleLoading();
 			disableDraw();
@@ -456,6 +462,7 @@ function itchaskitch(){
 					} else {
 						location = id;
 					}
+					skitchData.id = id;
 					enableDraw();
 					enableUndo();
 					saveTrigger = false;
@@ -468,6 +475,10 @@ function itchaskitch(){
 					});
 					$comments.show();
 					toggleLoading();
+					if( shareFlag ) {
+						openShare();
+						shareFlag = false;	
+					}
 				});		
 			});
 		}
@@ -482,6 +493,8 @@ function itchaskitch(){
 		ableTo.save = false;
 		$save.addClass( 'disabled' );
 	}
+	
+	$save.on( 'click', save );
 	
 	/*==============================================================================*/
 	/* Undo */
@@ -513,6 +526,8 @@ function itchaskitch(){
 		ableTo.undo = false;
 		$undo.addClass( 'disabled' );
 	}
+	
+	$undo.on( 'click', undo );
 	
 	/*==============================================================================*/
 	/* Download */
@@ -551,36 +566,41 @@ function itchaskitch(){
 		$download.addClass( 'disabled' );
 	}
 	
+	$download.on( 'click', download );
+	
 	/*==============================================================================*/
 	/* Share */
 	/*==============================================================================*/
-	function share() {
+	function share( e ) {
+		e.preventDefault();
 		if( ableTo.share ) {
 			skip();
 			if( saveTrigger ) {
-				// need to save first!
+				shareFlag = true;
+				save();
 			} else {
-				// ready to share!
+				openShare();
 			}
 		}
 	}
-	
+		
 	function setShareData() {
-		$shareUrl.text();
-		$shareFacebook.attr( 'href', '' );
-		$shareTwitter.attr( 'href', '' );
-		// url
-		//https://twitter.com/intent/tweet?url=http%3A%2F%2Fsketchtoy.com%2F29847558&text=Check%20out%20this%20drawing!&related=sketchtoy&via=sketchtoy&hashtags=sketchtoy
-		/*
-		https://www.facebook.com/dialog/feed?
-	  app_id=458358780877780&
-	  link=https://developers.facebook.com/docs/reference/dialogs/&
-	  picture=http://fbrell.com/f8.jpg&
-	  name=Facebook%20Dialogs&
-	  caption=Reference%20Documentation&
-	  description=Using%20Dialogs%20to%20interact%20with%20users.&
-	  redirect_uri=https://mighty-lowlands-6381.herokuapp.com/
-	  */
+		$shareUrl.val( 'http://itchaskitch.com/' + skitchData.id );
+		$shareImage.val( skitchData.awsPath + '/images/' + skitchData.id + '.png' );
+		$shareTwitter.attr( 'href', 'https://twitter.com/intent/tweet?url=' + encodeURIComponent( 'http://itchaskitch.com/' + skitchData.id  ) + '&text=' + encodeURIComponent( 'Awesome skitch on Itch A Skitch // The Canvas Powered Etch A Sketch' ) + '&related=itchaskitch&via=itchaskitch&hashtags=itchaskitch' );
+	}	
+	
+	function openShare() {
+		$shareOverlay.addClass( 'visible' );
+		setShareData();
+	}
+	
+	function closeShare() {
+		$shareOverlay.removeClass( 'visible' );
+	}
+	
+	function selectText( e ) {
+		$( e.target ).select();
 	}
 	
 	function enableShare() {
@@ -592,6 +612,45 @@ function itchaskitch(){
 		ableTo.share = false;
 		$share.addClass( 'disabled' );
 	}
+	
+	$share.on( 'click', share );
+	
+	$shareUrl.add( $shareImage ).on( 'click', selectText );
+	
+	$shareClose.on( 'click' , closeShare );
+	$document.on( 'click', function( e ) {
+		var $target = $( e.target );
+		var inShare = $target.parents('.share-overlay').size() || $target.hasClass( 'share-overlay' );
+		if( !$target.hasClass( 'share' ) && !$target.hasClass( 'icon-export' ) && $shareOverlay.hasClass( 'visible' ) && !inShare ){ 
+			closeShare( e );
+		}
+	});
+	
+	$shareFacebook.on('click', function ( e ) {
+		e.preventDefault();
+		FB.ui(
+			{
+				method: 'feed',
+				name: 'Itch A Skitch',
+				caption: 'HTML5 Canvas Powered Etch A Sketch',
+				description: 'Itch your skitch with your keyboard, save it, and share it!',
+				link: 'http://itchaskitch.com/' + skitchData.id,
+				picture: skitchData.awsPath + '/images/' + skitchData.id + '.png'
+			},
+			function( response ) {			
+			}
+		);								
+	});
+	
+	$shareGooglePlus.on( 'click', function ( e ) {
+		e.preventDefault();
+		//window.open( 'https://plus.google.com/share?url=' + encodeURIComponent( 'http://itchaskitch.com/' + skitchData.id ),'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600' )
+		var w = 600;
+		var h = 300;
+		var left = (win.innerWidth/2)-(w/2);
+		var top = (win.innerHeight/2)-(h/2);
+		win.open('https://plus.google.com/share?url=' + encodeURIComponent( 'http://itchaskitch.com/' + skitchData.id ), '', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left);
+	});
 	
 	/*==============================================================================*/
 	/* New Skitch */
@@ -625,6 +684,7 @@ function itchaskitch(){
 					disableUndo();
 					disableDownload();
 					disableNewSkitch();
+					disableShare()
 					toggleLoading();
 				}, 700 );
 			}
@@ -640,6 +700,8 @@ function itchaskitch(){
 		ableTo.newSkitch = false;
 		$newSkitch.addClass( 'disabled' );
 	}
+	
+	$newSkitch.on( 'click', newSkitch );
 	
 	/*==============================================================================*/
 	/* Update Placeholder Image */
@@ -742,14 +804,9 @@ function itchaskitch(){
 	});
 	
 	/*==============================================================================*/
-	/* Click Controls */
+	/* Misc Controls and Bindings */
 	/*==============================================================================*/
-	$undo.on( 'click', undo );
-	$save.on( 'click', save );
-	$download.on( 'click', download );
-	$share.on( 'click', share );
-	$newSkitch.on( 'click', newSkitch );
-	$canvasWrap.on( 'click', skip );
+	$canvasWrap.on( 'click', skip );	
 	
 	/*==============================================================================*/
 	/* Page Visibility */
@@ -757,18 +814,18 @@ function itchaskitch(){
 	// http://stackoverflow.com/questions/1060008/is-there-a-way-to-detect-if-a-browser-window-is-not-currently-active
 	(function() {
 		var hidden = 'hidden';
-		if( hidden in document ) {
-			document.addEventListener( 'visibilitychange', pageVisibilityChange );
-		} else if( ( hidden = 'mozHidden' ) in document ) {
-			document.addEventListener( 'mozvisibilitychange', pageVisibilityChange );
-		} else if( ( hidden = 'webkitHidden' ) in document ) {
-			document.addEventListener( 'webkitvisibilitychange', pageVisibilityChange );
-		} else if( ( hidden = 'msHidden' ) in document ) {
-			document.addEventListener( 'msvisibilitychange', pageVisibilityChange );
-		} else if( 'onfocusin' in document ) {
-			document.onfocusin = document.onfocusout = pageVisibilityChange;
+		if( hidden in doc ) {
+			doc.addEventListener( 'visibilitychange', pageVisibilityChange );
+		} else if( ( hidden = 'mozHidden' ) in doc ) {
+			doc.addEventListener( 'mozvisibilitychange', pageVisibilityChange );
+		} else if( ( hidden = 'webkitHidden' ) in doc ) {
+			doc.addEventListener( 'webkitvisibilitychange', pageVisibilityChange );
+		} else if( ( hidden = 'msHidden' ) in doc ) {
+			doc.addEventListener( 'msvisibilitychange', pageVisibilityChange );
+		} else if( 'onfocusin' in doc ) {
+			doc.onfocusin = doc.onfocusout = pageVisibilityChange;
 		} else {
-			window.onfocus = window.onblur = pageVisibilityChange;
+			win.onfocus = win.onblur = pageVisibilityChange;
 		}
 	})();
 	
@@ -781,17 +838,15 @@ function itchaskitch(){
 	/*==============================================================================*/
 	/* Unsaved Changes Prompt */
 	/*==============================================================================*/
-	window.onbeforeunload = function(e) {
+	win.onbeforeunload = function(e) {
 		if( saveTrigger && ( lastTarget != 'download' && lastTarget != 'icon-download' ) ){
 			return 'You have unsaved changes on your skitch. Stop and press save if you want to keep your changes.';
 		}
 	};
 	
-	/*==============================================================================*/
 	/* Click Tracking For Download Button */
-	/*==============================================================================*/
 	/* Used to allow for download without triggering onbeforeunload warning */
-	$body.on( 'click', function( e ){
+	$document.on( 'click', function( e ){								
 		lastTarget = e.target.className || null;
 	});
 	

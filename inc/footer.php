@@ -19,8 +19,28 @@
 			var skitchData = skitchData || {};
 			skitchData.id = <?php echo (empty($skitch_id)) ? 'null' : $skitch_id; ?>;
 			skitchData.path = <?php echo (empty($skitch_path)) ? '[]' : $skitch_path; ?>;
+			skitchData.awsPath = '<?php echo awsPath; ?>'
 		</script>
 		<script src="<?php echo $app['url']; ?>/js/app.2.js"></script>
+		<script src="//platform.twitter.com/widgets.js"></script>
+		<div id="fb-root"></div>
+		<script>
+			window.fbAsyncInit = function() {
+				FB.init({
+					appId: '545425965492226',
+					channelUrl: '//itchaskitch.com/channel.php',
+					status: false,
+					xfbml: false
+				});			
+			};			
+			(function(d, s, id){
+				var js, fjs = d.getElementsByTagName(s)[0];
+				if (d.getElementById(id)) {return;}
+				js = d.createElement(s); js.id = id;
+				js.src = "//connect.facebook.net/en_US/all.js";
+				fjs.parentNode.insertBefore(js, fjs);
+			}(document, 'script', 'facebook-jssdk'));
+		</script>
 		<script>
 			var _gaq = _gaq || [];
 			_gaq.push(['_setAccount', 'UA-5693606-11']);

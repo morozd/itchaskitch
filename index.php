@@ -54,9 +54,12 @@ $page = array(
 		</div><!-- end .time-overlay -->
 	<?php } ?>
 	<div class="share-overlay">
-		<div class="block">URL: <span class="share-url">http://itchaskitch.com/dev/234</span></div>
-		<a href="" class="block share-facebook">Share on Facebook</a>
-		<a href="" class="block share-">Share on Twitter</a>
+		<a href="#" class="share-close"><i class="icon-cancel"></i></a>
+		<div class="block"><i class="icon-link"></i><span>Share Link:</span> <input class="share-url" value="http://itchaskitch.com/dev/234" readonly /></div>
+		<div class="block"><i class="icon-picture"></i><span>Share Image:</span> <input class="share-image" value="http://itchaskitch.com/dev/234" readonly /></div>
+		<a href="#" class="block share-facebook"><i class="icon-facebook"></i>Share on Facebook</a>
+		<a href="#" class="block share-twitter"><i class="icon-twitter"></i>Share on Twitter</a>
+		<a href="#" class="block share-google-plus"><i class="icon-gplus"></i>Share on Google+</a>
 	</div><!-- end .share-overlay -->
 </div><!-- end .canvas-wrap -->
 <?php if($has_skitch){ ?>
