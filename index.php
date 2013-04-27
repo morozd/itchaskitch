@@ -9,7 +9,7 @@
 		$id = (int) $_GET['id'];
 		$skitch = get_skitch($id);	
 		if(!$skitch){
-			header('Location: http://itchaskitch.com');
+			header('Location: ' . $app['url']);
 		};
 		$skitch_id = $skitch['id'];		
 		$skitch_path = file_get_contents(awsPath.'/skitches/'.$skitch_id.'.json');
@@ -55,8 +55,8 @@ $page = array(
 	<?php } ?>
 	<div class="share-overlay">
 		<a href="#" class="share-close"><i class="icon-cancel"></i></a>
-		<div class="block"><i class="icon-link"></i><span>Share Link:</span> <input class="share-url" value="http://itchaskitch.com/dev/234" readonly /></div>
-		<div class="block"><i class="icon-picture"></i><span>Share Image:</span> <input class="share-image" value="http://itchaskitch.com/dev/234" readonly /></div>
+		<div class="block"><i class="icon-link"></i><span>Share Link:</span> <input class="share-url" value="" readonly /></div>
+		<div class="block"><i class="icon-picture"></i><span>Share Image:</span> <input class="share-image" value="" readonly /></div>
 		<a href="#" class="block share-facebook"><i class="icon-facebook"></i>Share on Facebook</a>
 		<a href="#" class="block share-twitter"><i class="icon-twitter"></i>Share on Twitter</a>
 		<a href="#" class="block share-google-plus"><i class="icon-gplus"></i>Share on Google+</a>

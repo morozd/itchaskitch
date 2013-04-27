@@ -5,7 +5,7 @@
 					<span class="divider">//</span>
 					<a href="<?php echo $app['url']; ?>/skitches"><span class="skitch-count"><?php echo get_skitch_count(); ?></span> Skitches</a>
 					<span class="divider">//</span>
-					Found a bug or have a suggestion? <a href="https://github.com/jackrugile/itchaskitch/issues">Submit an Issue on GitHub</a>
+					Suggestions or bugs? <a href="https://github.com/jackrugile/itchaskitch/issues">Submit an Issue on GitHub</a>
 					<span class="divider">//</span>
 					By <a href="http://jackrugile.com">Jack Rugile</a>
 				</p>
@@ -16,12 +16,14 @@
 		</div><!-- end .loader -->
 		<script src="<?php echo $app['url']; ?>/js/lib.1.js"></script>
 		<script>
-			var skitchData = skitchData || {};
-			skitchData.id = <?php echo (empty($skitch_id)) ? 'null' : $skitch_id; ?>;
-			skitchData.path = <?php echo (empty($skitch_path)) ? '[]' : $skitch_path; ?>;
-			skitchData.awsPath = '<?php echo awsPath; ?>'
+			var skitchData = {
+				siteUrl: '<?php echo $app['url']; ?>',
+				awsPath: '<?php echo awsPath; ?>',
+				id: <?php echo (empty($skitch_id)) ? 'null' : $skitch_id; ?>,
+				path: <?php echo (empty($skitch_path)) ? '[]' : $skitch_path; ?>
+			};
 		</script>
-		<script src="<?php echo $app['url']; ?>/js/app.2.js"></script>
+		<script src="<?php echo $app['url']; ?>/js/app.3.js"></script>
 		<script src="//platform.twitter.com/widgets.js"></script>
 		<div id="fb-root"></div>
 		<script>

@@ -53,7 +53,8 @@ function itchaskitch(){
 			knobInner: 'hsl(7, 35%, 95%)',
 			knobOuter: 'hsl(7, 45%, 45%)',
 			cursor: 'hsla(35, 5%, 95%, .75)',
-			path: 'hsla(35, 10%, 30%, .6)'
+			//path: 'hsla(35, 10%, 30%, .6)',
+			path: 'hsla(35, 10%, 18%, .6)'
 		},
 		screen = {
 			x: 75, 
@@ -143,6 +144,12 @@ function itchaskitch(){
 			enableShare();
 			enableNewSkitch();
 			$comments.show();
+			if( Modernizr.localstorage && !Modernizr.history ) {				
+				if( localStorage.getItem( 'shareFlag' ) == 1 ){
+					share();
+					localStorage.setItem( 'shareFlag', 0 );
+				}
+			}
 		}
 		
 		$canvas.jrumble({
@@ -171,7 +178,7 @@ function itchaskitch(){
 		this.vx = 0;
 		this.vy = 0;
 		this.vMax = 1.6;
-		this.vGain = 0.2;
+		this.vGain = 0.15;
 		this.moving = false;
 		this.omoving = this.moving;
 	}
@@ -184,7 +191,7 @@ function itchaskitch(){
 		this.vx = 0;
 		this.vy = 0;
 		this.vMax = 1.6;
-		this.vGain = 0.2;
+		this.vGain = 0.15;
 		this.moving = false;
 		this.omoving = this.moving;
 	}
@@ -374,7 +381,7 @@ function itchaskitch(){
 		ctx.clip();
 		ctx.shadowBlur = 3;
 		ctx.shadowColor = '#fff';
-		ctx.lineWidth = 1.5;
+		ctx.lineWidth = 1.25;
 		ctx.strokeStyle = colors.path;
 		if( !rumbling ) {
 			var length = path.length;
@@ -402,7 +409,7 @@ function itchaskitch(){
 			var length = path.length;
 			ctx.shadowBlur = 3;
 			ctx.shadowColor = '#fff';
-			ctx.lineWidth = 1.5;
+			ctx.lineWidth = 1.25;
 			ctx.strokeStyle = colors.path;
 			Math.seedrandom( seed );
 			for( var i = 0; i < length - 1; i++ ) {
@@ -457,7 +464,7 @@ function itchaskitch(){
 					url: 'php/get-skitch-count.php'
 				}).done(function( count ) {
 					$skitchCount.text( commas( count ) );
-					if( history.pushState ) {
+					if( Modernizr.history ) {
 						history.pushState( id, '', id );
 					} else {
 						location = id;
@@ -475,7 +482,7 @@ function itchaskitch(){
 					});
 					$comments.show();
 					toggleLoading();
-					if( shareFlag ) {
+					if( shareFlag && Modernizr.history) {
 						openShare();
 						shareFlag = false;	
 					}
@@ -572,10 +579,15 @@ function itchaskitch(){
 	/* Share */
 	/*==============================================================================*/
 	function share( e ) {
-		e.preventDefault();
+		if( e ) {
+			e.preventDefault();
+		}
 		if( ableTo.share ) {
 			skip();
 			if( saveTrigger ) {
+				if( Modernizr.localstorage && !Modernizr.history ) {
+					localStorage.setItem( 'shareFlag', 1 );					
+				}
 				shareFlag = true;
 				save();
 			} else {
@@ -593,10 +605,12 @@ function itchaskitch(){
 	function openShare() {
 		$shareOverlay.addClass( 'visible' );
 		setShareData();
+		ableTo.draw = false;
 	}
 	
 	function closeShare() {
 		$shareOverlay.removeClass( 'visible' );
+		ableTo.draw = true;
 	}
 	
 	function selectText( e ) {
@@ -675,10 +689,10 @@ function itchaskitch(){
 					$canvas.trigger( 'stopRumble' );
 					rumbling = false;
 					redrawFlag = true;
-					if( history.pushState ) {
-						history.pushState( null, null, 'http://itchaskitch.com/dev/' );
+					if( Modernizr.history ) {
+						history.pushState( null, null, skitchData.siteUrl + '/' );
 					} else {
-						location = 'http://itchaskitch.com/dev/';
+						location = skitchData.siteUrl + '/';
 					}
 					disableSave();
 					disableUndo();
@@ -839,13 +853,22 @@ function itchaskitch(){
 	/* Unsaved Changes Prompt */
 	/*==============================================================================*/
 	win.onbeforeunload = function(e) {
-		if( saveTrigger && ( lastTarget != 'download' && lastTarget != 'icon-download' ) ){
+		if( saveTrigger && ( 
+			lastTarget != 'download' 
+			&& lastTarget != 'icon-download'
+			&& lastTarget != 'new-skitch'
+			&& lastTarget != 'icon-pencil'
+			&& lastTarget != 'save'
+			&& lastTarget != 'icon-floppy'
+			&& lastTarget != 'share'
+			&& lastTarget != 'icon-export'
+		) ){
 			return 'You have unsaved changes on your skitch. Stop and press save if you want to keep your changes.';
 		}
 	};
 	
-	/* Click Tracking For Download Button */
-	/* Used to allow for download without triggering onbeforeunload warning */
+	/* Click Tracking For Buttons */
+	/* Used to allow for buttons without triggering onbeforeunload warning */
 	$document.on( 'click', function( e ){								
 		lastTarget = e.target.className || null;
 	});
