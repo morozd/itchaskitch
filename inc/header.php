@@ -20,7 +20,8 @@
 		<meta name="google-site-verification" content="5gd09tdIadOpQGdfCzde1GwHZRXcce5e_HYO6EYN6TE" />
 		<script src="//use.typekit.net/hbn2bub.js"></script>
 		<script>try{Typekit.load();}catch(e){}</script>
-		<link href="<?php echo $app['url']; ?>/css/style.1.css" rel="stylesheet" />
+		<!--<link href="<?php echo $app['url']; ?>/css/style.1.css" rel="stylesheet" />-->
+		<link href="<?php echo $app['url']; ?>/css/style.min.1.css" rel="stylesheet" />
 		<link href="<?php echo $app['url']; ?>/img/favicon.1.ico" rel="shortcut icon" type="image/x-icon" />
 		<script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
 		<script>if(typeof Modernizr == 'undefined'){document.write(unescape("%3Cscript src='<?php echo $app['url']; ?>/js/modernizr.min.js'%3E%3C/script%3E"));}</script>

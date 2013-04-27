@@ -53,7 +53,6 @@ function itchaskitch(){
 			knobInner: 'hsl(7, 35%, 95%)',
 			knobOuter: 'hsl(7, 45%, 45%)',
 			cursor: 'hsla(35, 5%, 95%, .75)',
-			//path: 'hsla(35, 10%, 30%, .6)',
 			path: 'hsla(35, 10%, 18%, .6)'
 		},
 		screen = {

@@ -13,8 +13,7 @@
 		</div><!-- end .container -->
 		<div class="loader">
 			<img src="<?php echo $app['url']; ?>/img/loader.gif" alt="Loader Animation" />
-		</div><!-- end .loader -->
-		<script src="<?php echo $app['url']; ?>/js/lib.1.js"></script>
+		</div><!-- end .loader -->		
 		<script>
 			var skitchData = {
 				siteUrl: '<?php echo $app['url']; ?>',
@@ -23,7 +22,11 @@
 				path: <?php echo (empty($skitch_path)) ? '[]' : $skitch_path; ?>
 			};
 		</script>
-		<script src="<?php echo $app['url']; ?>/js/app.3.js"></script>
+		<!--
+		<script src="<?php echo $app['url']; ?>/js/lib.1.js"></script>
+		<script src="<?php echo $app['url']; ?>/js/app.1.js"></script>
+		-->
+		<script src="<?php echo $app['url']; ?>/js/itchaskitch.min.1.js"></script>
 		<script src="//platform.twitter.com/widgets.js"></script>
 		<div id="fb-root"></div>
 		<script>
