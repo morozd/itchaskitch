@@ -17,5 +17,11 @@ $page = array(
 	<li><a href="http://sketchtoy.com">Sketch Toy</a> by Hakim El Hattab</li>
 </ul>
 <p>And of course, a big thanks to the original Etch A Sketch by Andre Cassagnes and <a href="http://www.ohioart.com/">Ohio Art</a>.</p>
-<p>If you find a bug or have any suggestions, feel free to <a href="https://github.com/jackrugile/itchaskitch/issues">submit an issue on GitHub</a> or email me at contact<span style="display:none">*</span>@itchaskitch.com</p>
+<h4>Bugs and Suggestions</h4>
+<p>If you find a bug or have any suggestions, you can get in touch the following ways:</p>
+	<ul>
+		<li>Submit an issue on <a href="https://github.com/jackrugile/itchaskitch/issues">GitHub</a></li>
+		<li>Tweet <a href="http://twitter.com/itchaskitch">@itchaskitch</a></li>
+		<li>Email contact<span style="display:none">*</span>@itchaskitch.com</li>
+	</ul>
 <?php include 'inc/footer.php'; ?>

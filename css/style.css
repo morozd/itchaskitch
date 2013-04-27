@@ -92,7 +92,7 @@ noindex:-o-prefocus, h3 { letter-spacing: -2px; }
 
 h4 {
 	font-family: 'vinyl', helvetica, arial, sans-serif;
-	font-size: 18px;
+	font-size: 16px;
 	font-weight: 400;
 	letter-spacing: -1px;
 	margin: 0 0 5px;
@@ -786,10 +786,6 @@ noindex:-o-prefocus, .skitch-grid a .skitch-view { letter-spacing: -2px; }
 /*==============================================================================*/
 /* Footer */
 /*==============================================================================*/
-footer {
-	
-}
-
 footer p {
 	color: #afa48a;
 	font: normal 12px/1 helvetica, arial, sans-serif;
@@ -803,6 +799,25 @@ footer a {
 footer .divider {
 	color: #afa48a;
 	margin: 0 14px;
+}
+
+.footer-icon {
+	background: #cc5c4d;
+	color: #f7f6f1;
+	font-size: 14px;
+	margin-right: 3px;
+	padding: 4px 7px;
+	vertical-align: middle;
+}
+
+.footer-twitter {
+	margin-right: 0;	
+}
+
+.footer-icon:hover,
+.footer-icon:focus {
+	background: #5c5952;
+	color: #f7f6f1;
 }
 
 /*==============================================================================*/

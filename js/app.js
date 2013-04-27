@@ -607,7 +607,8 @@ function itchaskitch(){
 		ableTo.draw = false;
 	}
 	
-	function closeShare() {
+	function closeShare( e ) {
+		e.preventDefault();
 		$shareOverlay.removeClass( 'visible' );
 		ableTo.draw = true;
 	}
