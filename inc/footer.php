@@ -8,7 +8,9 @@
 					<a href="http://facebook.com/itchaskitch" class="footer-facebook footer-icon"><i class="icon-facebook"></i></a>
 					<a href="http://twitter.com/itchaskitch" class="footer-twitter footer-icon"><i class="icon-twitter"></i></a>
 					<span class="divider">//</span>
-					<a href="<?php echo $app['url']; ?>/skitches"><span class="skitch-count"><?php echo get_skitch_count(); ?></span> Total Skitches</a>					
+					<a href="<?php echo $app['url']; ?>/skitches"><span class="skitch-count"><?php echo get_skitch_count(); ?></span> Total Skitches</a>
+					<br />
+					Itch A Skitch is in no way endorsed by or affiliated with Evernote or the team behind the Evernote Skitch product				
 				</p>
 			</footer>		
 		</div><!-- end .container -->

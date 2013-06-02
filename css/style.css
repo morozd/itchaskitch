@@ -789,6 +789,7 @@ noindex:-o-prefocus, .skitch-grid a .skitch-view { letter-spacing: -2px; }
 footer p {
 	color: #afa48a;
 	font: normal 12px/1 helvetica, arial, sans-serif;
+	line-height: 40px;
 	margin: 0;	
 }
 

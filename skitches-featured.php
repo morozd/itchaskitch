@@ -32,7 +32,7 @@ $page = array(
 			</a>
 		<?php } ?>
 	<?php } else { ?>
-		<p>No skitches found.</p>
+		<p>No featured skitches yet.</p>
 	<?php } ?>
 </div><!-- end .skitch-grid -->
 <?php 
