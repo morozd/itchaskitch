@@ -2,7 +2,7 @@
 ### Itch A Skitch // HTML5 Canvas Powered Etch A Sketch
 **http://itchaskitch.com**
 
-<img src="http://itchaskitch.com/img/placeholder.png" width="400" />
+<a href="http://itchaskitch.com" target="_blank"><img src="http://itchaskitch.com/img/placeholder.png" width="400" /></a>
 
 Itch A Skitch is an HTML5 canvas powered Etch A Sketch. Itch your skitch with your keyboard, save it, and share it! I was inspired to make this by some other canvas projects:
 
