@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 require 'S3.php';
 
 /*==============================================================================*/
@@ -112,6 +114,45 @@ function save_skitch($path, $dataurl){
 		$image = create_image('temp', $id, $dataurl, $echo = false);
 		$s3->putObjectFile('../temp/'.$image, 'itchaskitch', 'images/'.$id.'.png', S3::ACL_PUBLIC_READ);
 		
+	} catch(PDOException $e) {
+		echo 'Error: ' . $e->getMessage();
+	}
+};
+
+function feature_skitch($id){
+	try {
+		$pdo = new PDO('mysql:host='.DBHOST.';dbname='.DBNAME, DBUSER, DBPASS);
+		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$stmt = $pdo->prepare('UPDATE skitches SET featured = 1 WHERE id = :id');
+		$stmt->execute(array(
+			':id' => $id
+		));
+	} catch(PDOException $e) {
+		echo 'Error: ' . $e->getMessage();
+	}
+};
+
+function unfeature_skitch($id){
+	try {
+		$pdo = new PDO('mysql:host='.DBHOST.';dbname='.DBNAME, DBUSER, DBPASS);
+		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$stmt = $pdo->prepare('UPDATE skitches SET featured = 0 WHERE id = :id');
+		$stmt->execute(array(
+			':id' => $id
+		));
+	} catch(PDOException $e) {
+		echo 'Error: ' . $e->getMessage();
+	}
+};
+
+function delete_skitch($id){
+	try {
+		$pdo = new PDO('mysql:host='.DBHOST.';dbname='.DBNAME, DBUSER, DBPASS);
+		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$stmt = $pdo->prepare('DELETE FROM skitches WHERE id = :id');
+		$stmt->execute(array(
+			':id' => $id
+		));
 	} catch(PDOException $e) {
 		echo 'Error: ' . $e->getMessage();
 	}

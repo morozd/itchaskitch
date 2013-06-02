@@ -15,6 +15,22 @@
 		$skitch_path = file_get_contents(awsPath.'/skitches/'.$skitch_id.'.json');
 	};
 	$has_skitch = !empty($skitch_id) && !empty($skitch_path);
+	
+	$logged_in = isset($_SESSION['logged_in']);
+	if($logged_in && isset($_GET['action'], $_GET['actionid'])){
+		$action = $_GET['action'];
+		$actionid = $_GET['actionid'];		
+		if($action === 'delete'){
+			delete_skitch($actionid);
+			header('Location: '.$app['url'].'/skitches');
+		} else if($action === 'feature'){ 
+			feature_skitch($actionid);
+			header('Location: '.$app['url'].'/'.$actionid);
+		} else if($action === 'unfeature'){
+			unfeature_skitch($actionid);
+			header('Location: '.$app['url'].'/'.$actionid);
+		}
+	}
 ?>
 <?php
 $page = array(

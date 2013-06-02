@@ -4,5 +4,7 @@ php/backup.php
 php/config.php
 temp/
 .htaccess
+login.php
+logout.php
 notes.txt
 *.html

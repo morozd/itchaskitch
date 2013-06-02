@@ -20,12 +20,22 @@
 		<meta name="google-site-verification" content="5gd09tdIadOpQGdfCzde1GwHZRXcce5e_HYO6EYN6TE" />
 		<script src="//use.typekit.net/hbn2bub.js"></script>
 		<script>try{Typekit.load();}catch(e){}</script>
-		<link href="<?php echo $app['url']; ?>/css/style.min.2.css" rel="stylesheet" />
+		<link href="<?php echo $app['url']; ?>/css/style.min.3.css" rel="stylesheet" />
 		<link href="<?php echo $app['url']; ?>/img/favicon.1.ico" rel="shortcut icon" type="image/x-icon" />
 		<script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
 		<script>if(typeof Modernizr == 'undefined'){document.write(unescape("%3Cscript src='<?php echo $app['url']; ?>/js/modernizr.min.js'%3E%3C/script%3E"));}</script>
 	</head>
 	<body class="preload page-<?php echo $page['parent']; ?>">
+		<?php if($logged_in && $has_skitch){ ?>
+			<div  class="admin">
+				<?php if($skitch['featured']){ ?>
+					<a href="<?php echo $app['url']; ?>?action=unfeature&actionid=<?php echo $skitch_id; ?>">Unfeature</a>
+				<?php } else { ?>
+					<a href="<?php echo $app['url']; ?>?action=feature&actionid=<?php echo $skitch_id; ?>">Feature</a>
+				<?php } ?>
+				<a href="<?php echo $app['url']; ?>?action=delete&actionid=<?php echo $skitch_id; ?>">Delete</a>
+			</div>
+		<?php } ?>
 		<nav>
 			<div class="inner clearfix">
 			<a href="<?php echo $app['url']; ?>"<?php if($page['parent'] == 'home'){ echo ' class="current"'; } ?>>Itch A Skitch</a>
