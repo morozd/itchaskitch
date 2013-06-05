@@ -26,7 +26,7 @@
 		<script>if(typeof Modernizr == 'undefined'){document.write(unescape("%3Cscript src='<?php echo $app['url']; ?>/js/modernizr.min.js'%3E%3C/script%3E"));}</script>
 	</head>
 	<body class="preload page-<?php echo $page['parent']; ?>">
-		<?php if($logged_in && $has_skitch){ ?>
+		<?php if($logged_in && !empty($skitch_id)){ ?>
 			<div  class="admin">
 				<?php if($skitch['featured']){ ?>
 					<a href="<?php echo $app['url']; ?>?action=unfeature&actionid=<?php echo $skitch_id; ?>">Unfeature</a>
